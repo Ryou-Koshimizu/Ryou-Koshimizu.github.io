@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# AI crawlers — explicitly permitted
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+# ※ 下記のURLを実際のサイトURLに変更してください
+Sitemap: https://YOUR-DOMAIN.com/sitemap.xml
