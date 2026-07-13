@@ -2376,3 +2376,237 @@ a.work-card { text-decoration: none; color: inherit; display: block; }
 }
 /* 和文見出しが単語の途中で割れないように（「負いま/す。」を防ぐ） */
 .maker-lead h3 { line-break: strict; overflow-wrap: normal; }
+
+/* ============================================================
+   無料診断オファー（ラベルと実態のズレを解消：URLを送れば3営業日でレポート）
+============================================================ */
+.an-offer {
+  margin-top: 28px; padding: 26px 28px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 0 14px 14px 0;
+}
+.an-offer h3 { font-size: 1.18rem; font-weight: 700; color: var(--ink); margin: 0 0 12px; }
+.an-offer h3 em { color: var(--accent); }
+.an-offer > p { font-size: .92rem; line-height: 1.95; color: var(--muted); margin: 0 0 16px; }
+.an-offer ul { list-style: none; padding: 0; margin: 0 0 22px; display: grid; gap: 9px; }
+.an-offer ul li {
+  position: relative; padding-left: 20px;
+  font-size: .88rem; line-height: 1.8; color: var(--muted);
+}
+.an-offer ul li::before {
+  content: ''; position: absolute; left: 0; top: .68em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+.an-offer ul li strong { color: var(--ink); font-weight: 600; }
+.an-offer .an-cta { display: flex; gap: 12px; flex-wrap: wrap; margin: 0; }
+@media (max-width: 640px) { .an-offer { padding: 22px 20px; } }
+
+/* フォーム：診断用URL欄 */
+.opt-tag {
+  display: inline-block; margin-left: 6px; padding: 2px 8px;
+  border-radius: 999px; background: rgba(59,130,246,.14);
+  border: 1px solid rgba(59,130,246,.3);
+  font-size: .66rem; font-weight: 600; color: var(--accent); letter-spacing: .02em;
+}
+.form-hint { margin-top: 6px; font-size: .74rem; color: var(--dim); line-height: 1.7; }
+/* contact：無料診断の案内（フォームの直前） */
+.diag-box {
+  margin-bottom: 30px; padding: 24px 26px;
+  background: rgba(59,130,246,.05);
+  border: 1px solid rgba(59,130,246,.22); border-radius: 14px;
+}
+.diag-label {
+  font-size: .72rem; font-weight: 700; letter-spacing: .1em;
+  color: var(--accent); text-transform: uppercase; margin: 0 0 10px;
+}
+.diag-lead { font-size: .9rem; line-height: 1.95; color: var(--muted); margin: 0 0 14px; }
+.diag-lead strong { color: var(--ink); font-weight: 600; }
+.diag-list { list-style: none; padding: 0; margin: 0 0 14px; display: grid; gap: 7px; }
+.diag-list li {
+  position: relative; padding-left: 18px;
+  font-size: .84rem; line-height: 1.75; color: var(--muted);
+}
+.diag-list li::before {
+  content: ''; position: absolute; left: 0; top: .66em;
+  width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+}
+.diag-list li strong { color: var(--ink); font-weight: 600; }
+.diag-line { font-size: .85rem; margin: 0; color: var(--muted); }
+.diag-line a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; font-weight: 600; }
+@media (max-width: 640px) { .diag-box { padding: 20px 18px; } }
+
+/* ============================================================
+   MONITOR — 最初の3社へのモニター特約（実績ゼロを武器に変える）
+   配置は #maker（実績ゼロの告白）の直後。告白の論理的な結論として置く。
+============================================================ */
+.mon-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(32px,5vw,68px); align-items: start; }
+.mon-lead > p { font-size: 1rem; line-height: 2.05; color: var(--muted); margin: 0 0 18px; }
+.mon-why {
+  padding: 18px 20px; background: rgba(59,130,246,.06);
+  border-left: 2px solid var(--accent); border-radius: 0 10px 10px 0;
+  font-size: .92rem !important; line-height: 1.95 !important;
+}
+.mon-offer {
+  padding: 30px 32px; background: var(--bg);
+  border: 1px solid var(--border); border-radius: 18px;
+}
+.mon-tag {
+  display: inline-block; padding: 5px 12px; border-radius: 999px;
+  background: rgba(59,130,246,.14); border: 1px solid rgba(59,130,246,.3);
+  font-size: .68rem; font-weight: 700; letter-spacing: .06em; color: var(--accent);
+  margin: 0 0 14px;
+}
+.mon-offer h3 { font-size: clamp(1.35rem,2.8vw,1.85rem); font-weight: 700; color: var(--ink); line-height: 1.5; margin: 0 0 22px; }
+.mon-offer h3 em { color: var(--accent); }
+.mon-prices { display: grid; gap: 14px; margin-bottom: 18px; }
+.mon-price {
+  display: grid; gap: 3px; padding: 16px 18px;
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+}
+.mon-price-k { font-size: .78rem; color: var(--dim); letter-spacing: .04em; }
+.mon-price-v { font-size: 1.75rem; font-weight: 700; color: var(--accent); line-height: 1.2; }
+.mon-price-v span { font-size: .62rem; font-weight: 500; color: var(--muted); margin-left: 6px; letter-spacing: 0; }
+.mon-price-n { font-size: .74rem; color: var(--muted); line-height: 1.6; }
+.mon-inc { font-size: .86rem; line-height: 1.9; color: var(--muted); margin: 0 0 24px; }
+.mon-cond-t { font-size: .95rem; font-weight: 700; color: var(--ink); margin: 0 0 12px; }
+.mon-cond { list-style: none; padding: 0; margin: 0 0 26px; display: grid; gap: 11px; }
+.mon-cond li {
+  position: relative; padding-left: 22px;
+  font-size: .86rem; line-height: 1.85; color: var(--muted);
+}
+.mon-cond li::before {
+  content: ''; position: absolute; left: 0; top: .68em;
+  width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+}
+.mon-cond li strong { color: var(--ink); font-weight: 600; }
+.mon-cta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+.mon-note { font-size: .74rem; line-height: 1.85; color: var(--dim); margin: 0; padding-top: 14px; border-top: 1px solid var(--border); }
+@media (max-width: 900px) {
+  .mon-grid { grid-template-columns: 1fr; gap: 30px; }
+  .mon-offer { padding: 24px 20px; }
+}
+/* pricing：モニター特約バナー */
+.mon-banner {
+  display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center;
+  padding: 28px 32px; border-radius: 16px;
+  background: linear-gradient(135deg, rgba(59,130,246,.09), rgba(99,102,241,.05));
+  border: 1px solid rgba(59,130,246,.28);
+}
+.mon-banner h2 { font-size: clamp(1.2rem,2.6vw,1.6rem); font-weight: 700; color: var(--ink); margin: 0 0 10px; }
+.mon-banner h2 em { color: var(--accent); }
+.mon-banner p { font-size: .88rem; line-height: 1.9; color: var(--muted); margin: 0; }
+@media (max-width: 760px) {
+  .mon-banner { grid-template-columns: 1fr; gap: 18px; padding: 22px 20px; }
+  .mon-banner-r .btn { width: 100%; justify-content: center; }
+}
+
+/* ============================================================
+   INSIGHTS — 読みもの（実績がないので、考え方を出す）
+============================================================ */
+.ins-grid { display: grid; gap: 20px; max-width: 900px; margin: 0 auto; }
+.ins-card {
+  display: block; padding: 30px 32px; text-decoration: none;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-left: 3px solid var(--border); border-radius: 0 16px 16px 0;
+  transition: border-color .3s var(--ease), background .3s var(--ease), transform .3s var(--ease);
+}
+.ins-card:hover { border-left-color: var(--accent); background: rgba(59,130,246,.05); transform: translateX(4px); }
+.ins-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.ins-num { font-size: .78rem; font-weight: 700; color: var(--accent); letter-spacing: .1em; }
+.ins-cat {
+  padding: 3px 10px; border-radius: 999px;
+  background: rgba(255,255,255,.05); border: 1px solid var(--border);
+  font-size: .68rem; color: var(--dim); letter-spacing: .04em;
+}
+.ins-title { font-size: clamp(1.1rem,2.4vw,1.4rem); font-weight: 700; color: var(--ink); line-height: 1.6; margin: 0 0 12px; }
+.ins-desc { font-size: .88rem; line-height: 1.95; color: var(--muted); margin: 0 0 16px; }
+.ins-more { font-size: .82rem; font-weight: 600; color: var(--accent); }
+@media (max-width: 640px) { .ins-card { padding: 24px 20px; } }
+
+/* 記事本文 */
+.art-wrap { max-width: 780px; }
+.art-meta { font-size: .78rem; color: var(--dim); margin-top: 16px; letter-spacing: .04em; }
+.art-lead {
+  font-size: 1.02rem; line-height: 2.1; color: var(--muted);
+  padding: 22px 24px; margin: 0 0 44px;
+  background: var(--bg2); border-left: 3px solid var(--accent); border-radius: 0 12px 12px 0;
+}
+.art-lead strong { color: var(--ink); }
+.art-h2 {
+  font-size: clamp(1.25rem,2.8vw,1.65rem); font-weight: 700; color: var(--ink);
+  line-height: 1.6; margin: 52px 0 20px; padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.art-wrap p { font-size: .95rem; line-height: 2.05; color: var(--muted); margin: 0 0 20px; }
+.art-wrap p strong { color: var(--ink); font-weight: 600; }
+.art-quote {
+  margin: 28px 0; padding: 22px 26px;
+  border-left: 3px solid var(--accent); background: rgba(59,130,246,.06);
+  border-radius: 0 12px 12px 0; font-size: 1.02rem; line-height: 1.95; color: var(--ink);
+}
+.art-quote cite { display: block; margin-top: 12px; font-size: .8rem; color: var(--muted); font-style: normal; }
+.art-quote cite a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.art-source { font-size: .76rem !important; line-height: 1.8 !important; color: var(--dim) !important; margin: -6px 0 24px !important; }
+.art-source a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
+.art-table-wrap { margin: 24px 0 28px; }
+.art-table { width: 100%; border-collapse: collapse; font-size: .9rem; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.art-table th, .art-table td { padding: 13px 16px; text-align: left; border-bottom: 1px solid var(--border); color: var(--muted); }
+.art-table thead th { background: var(--bg2); color: var(--ink); font-weight: 700; font-size: .82rem; }
+.art-table td strong { color: var(--accent); font-weight: 700; }
+.art-table tr:last-child td { border-bottom: none; }
+.art-ol { padding-left: 0; margin: 0 0 26px; list-style: none; counter-reset: a; display: grid; gap: 14px; }
+.art-ol li {
+  position: relative; padding-left: 34px;
+  font-size: .93rem; line-height: 2; color: var(--muted);
+}
+.art-ol li::before {
+  counter-increment: a; content: counter(a);
+  position: absolute; left: 0; top: .28em;
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--btn-bg); color: #fff;
+  display: grid; place-items: center; font-size: .76rem; font-weight: 700;
+}
+.art-ol li strong { color: var(--ink); font-weight: 600; }
+.art-ol--num li { padding-left: 38px; }
+.art-check { list-style: none; padding: 0; margin: 0 0 26px; display: grid; gap: 11px; }
+.art-check li {
+  position: relative; padding-left: 22px;
+  font-size: .93rem; line-height: 1.95; color: var(--muted);
+}
+.art-check li::before {
+  content: ''; position: absolute; left: 0; top: .72em;
+  width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
+}
+.art-check li strong { color: var(--ink); font-weight: 600; }
+.art-box {
+  margin: 24px 0 28px; padding: 24px 26px;
+  background: var(--bg2); border: 1px solid var(--border); border-radius: 14px;
+}
+.art-box p:last-child { margin-bottom: 0; }
+.art-box--strong { background: rgba(59,130,246,.08); border-color: rgba(59,130,246,.28); }
+.art-box--strong p { color: var(--ink) !important; font-size: 1.02rem !important; }
+.art-honest {
+  margin: 40px 0 0; padding: 28px 30px;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent); border-radius: 0 16px 16px 0;
+}
+.art-honest p:last-child { margin-bottom: 0; }
+.art-link { color: var(--accent); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.art-mark { color: var(--ink); box-shadow: inset 0 -.4em 0 rgba(59,130,246,.22); font-weight: 700; }
+.art-answers { display: grid; gap: 14px; margin: 24px 0 28px; }
+.art-answer {
+  display: grid; grid-template-columns: auto 1fr; gap: 16px; align-items: start;
+  padding: 20px 22px; background: var(--bg2);
+  border: 1px solid var(--border); border-radius: 14px;
+}
+.art-answer-n {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--btn-bg); color: #fff;
+  display: grid; place-items: center; font-size: .78rem; font-weight: 700; margin-top: 2px;
+}
+.art-answer strong { display: block; font-size: .95rem; color: var(--ink); margin-bottom: 6px; }
+.art-answer p { font-size: .88rem !important; line-height: 1.9 !important; margin: 0 !important; }
+@media (max-width: 640px) {
+  .art-lead, .art-honest, .art-box { padding: 20px 18px; }
+  .art-answer { padding: 16px 16px; gap: 12px; }
+}

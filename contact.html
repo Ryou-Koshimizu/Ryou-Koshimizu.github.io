@@ -120,6 +120,7 @@
       </ul>
       <div class="nav-ov-cat" style="margin-top:34px">Company</div>
       <ul class="nav-ov-list">
+        <li><a href="insights.html">読みもの</a></li>
         <li><a href="about.html">会社について</a></li>
         <li><a href="flow.html">制作の流れ</a></li>
         <li><a href="faq.html">よくある質問</a></li>
@@ -191,6 +192,18 @@
           <h3 style="font-size:1.1rem;font-weight:700;letter-spacing:-.02em;margin-bottom:8px">無料相談フォーム</h3>
           <p style="font-size:.78rem;color:var(--muted);margin-bottom:28px">1営業日以内にご連絡します</p>
 
+          <div class="diag-box reveal">
+            <p class="diag-label">無料Web診断をご希望の方へ</p>
+            <p class="diag-lead">「ご相談内容」で<strong>「無料Web診断を受けたい」</strong>を選び、<strong>いまのサイトのURL</strong>をご記入ください。<br>
+            SEO・AEO・GEO・MEOの点数と改善リストをまとめたレポートを、<strong>3営業日以内にメールでお送りします。</strong></p>
+            <ul class="diag-list">
+              <li><strong>打ち合わせは不要です。</strong>レポートを読んで、必要なければそれで終わりで構いません。</li>
+              <li><strong>営業の電話はしません。</strong></li>
+              <li>他社で制作されたサイトでも診断します。</li>
+            </ul>
+            <p class="diag-line">お急ぎなら、<a href="https://line.me/R/ti/p/@794iqonk" target="_blank" rel="noopener">公式LINEにURLを送っていただくのが最短です →</a></p>
+          </div>
+
           <form class="form" id="contactForm">
             <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;height:0;width:0;overflow:hidden">
             <div class="form-row">
@@ -215,7 +228,7 @@
               <label for="f-type">ご相談内容 <span class="req">必須</span></label>
               <select id="f-type" name="type" required>
                 <option value="">選択してください</option>
-                <option>無料Web診断を受けたい</option>
+                <option>無料Web診断を受けたい（打ち合わせ不要・3営業日以内にレポート送付）</option>
                 <option>ホームページ制作の相談（HP）</option>
                 <option>ランディングページ制作の相談（LP）</option>
                 <option>AI検索対策の相談</option>
@@ -224,6 +237,11 @@
                 <option>既存サイトのリニューアル相談</option>
                 <option>その他・まず話を聞きたい</option>
               </select>
+            </div>
+            <div class="form-group">
+              <label for="f-url">いまのサイトのURL <span class="opt-tag">診断をご希望の方は必須</span></label>
+              <input type="url" id="f-url" name="site_url" placeholder="https://example.com" inputmode="url">
+              <p class="form-hint">このURLをそのまま診断します。サイトをお持ちでない場合は空欄で構いません。</p>
             </div>
             <div class="form-group">
               <label for="f-message">現状の課題・お困りのこと</label>
@@ -313,7 +331,7 @@
     <div class="footer-brand"><p class="footer-logo"><img src="img/logo.webp" alt="LUMEN" width="160" height="40" class="footer-logo-img" /></p><p class="footer-tagline">AI時代のWeb集客パートナー</p><p class="footer-def">LUMENは日本全国の中小事業者と個人事業主を支援するWebサイト制作事業者です。HP・LP制作、AI検索対策（AEO・GEO）、MEO対策、公式LINE構築までを初期費用0円・月額制で提供します。</p><div class="footer-avail"><span class="avail-dot"></span>ご相談受付中</div></div>
     <div class="footer-cols">
       <div class="footer-col"><p class="fc-title">サービス</p><ul><li><a href="lp.html">LP制作</a></li><li><a href="hp.html">HP制作</a></li><li><a href="options.html">オプション</a></li><li><a href="pricing.html">料金プラン</a></li><li><a href="pricing.html#comparison">他社との比較</a></li></ul></div>
-      <div class="footer-col"><p class="fc-title">コンテンツ</p><ul><li><a href="gallery.html">制作イメージ</a></li><li><a href="works.html">動く演出</a></li><li><a href="about.html">会社について</a></li><li><a href="flow.html">制作の流れ</a></li><li><a href="faq.html">よくある質問</a></li></ul></div>
+      <div class="footer-col"><p class="fc-title">コンテンツ</p><ul><li><a href="gallery.html">制作イメージ</a></li><li><a href="works.html">動く演出</a></li><li><a href="insights.html">読みもの</a></li><li><a href="about.html">会社について</a></li><li><a href="flow.html">制作の流れ</a></li><li><a href="faq.html">よくある質問</a></li></ul></div>
       <div class="footer-col"><p class="fc-title">お問い合わせ</p><ul><li><a href="contact.html">無料相談を予約する</a></li><li><a href="index.html#analytics">無料サイト診断</a></li><li><a href="https://line.me/R/ti/p/@794iqonk" target="_blank" rel="noopener">公式LINEで相談する</a></li></ul><a href="contact.html" class="btn btn-primary footer-cta-btn">無料相談</a></div>
     </div>
   </div>
