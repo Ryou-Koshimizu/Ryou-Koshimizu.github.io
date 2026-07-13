@@ -1,0 +1,21 @@
+# ============================================================
+# Netlify / Cloudflare Pages 用 HTTP レスポンスヘッダ設定
+# （Apache サーバの場合は同梱の .htaccess を使用してください）
+# ============================================================
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://formspree.io https://ssgform.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://formspree.io https://ssgform.com; upgrade-insecure-requests
+  # HSTS: HTTPS が安定稼働してから下行のコメントを外して有効化（誤設定はアクセス不能の恐れ）
+  # Strict-Transport-Security: max-age=31536000; includeSubDomains
+
+# 静的アセットは長めにキャッシュ（内容変更時はファイル名を変えるか手動パージ）
+/img/*
+  Cache-Control: public, max-age=2592000
+/js/vendor/*
+  Cache-Control: public, max-age=2592000
+/css/*
+  Cache-Control: public, max-age=86400

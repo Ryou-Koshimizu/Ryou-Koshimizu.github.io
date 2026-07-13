@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>動く演出：ガラスの屈折｜LUMEN 制作サンプル</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #050510; }
+    #c { position: fixed; inset: 0; display: block; width: 100%; height: 100%; }
+    #fallback { display: none; position: fixed; inset: 0; background: radial-gradient(circle at 50% 50%, #0a0520 0%, #050510 70%); }
+    #content {
+      position: fixed; inset: 0; z-index: 10; pointer-events: none;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif; text-align: center;
+    }
+    #content h1 {
+      font-size: clamp(1.8rem, 4vw, 3.5rem); font-weight: 700; letter-spacing: -0.03em;
+      color: rgba(220, 215, 255, 0.70); 
+      margin-top: 52vh; /* below the sphere */
+    }
+    #content p {
+      margin-top: 0.5rem; font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+      color: rgba(160, 150, 230, 0.35); letter-spacing: 0.3em; 
+    }
+  </style>
+</head>
+<body>
+  <div id="fallback"></div>
+  <canvas id="c"></canvas>
+  <div id="content">
+    <h1>透明の、奥ゆき。</h1>
+    <p>ガラス球の内側で光が屈折し、色がわずかに分かれます。</p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('c');
+    const gl = canvas.getContext('webgl');
+    if (!gl) {
+      canvas.style.display = 'none';
+      document.getElementById('fallback').style.display = 'block';
+    } else {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const VS = `attribute vec2 a_pos; void main(){ gl_Position=vec4(a_pos,0,1); }`;
+      const FS = `
+        precision highp float;
+        uniform float uTime;
+        uniform vec2  uRes;
+        uniform vec2  uMouse; // normalized -1..1
+
+        // ── Noise for background environment ───────────────
+        float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5); }
+        float noise(vec2 p){
+          vec2 i=floor(p),f=fract(p),u=f*f*(3.0-2.0*f);
+          return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);
+        }
+        float fbm(vec2 p){
+          float v=0.0,a=0.5;
+          mat2 rot=mat2(0.8,-0.6,0.6,0.8);
+          for(int i=0;i<5;i++){v+=a*noise(p);p=rot*p*2.1;a*=0.5;}
+          return v;
+        }
+
+        // ── Colorful nebula background ─────────────────────
+        vec3 sampleBg(vec3 dir, float t){
+          // Project sphere dir to 2D for a rich background
+          float phi   = atan(dir.y, dir.x) / 6.28318 + 0.5;
+          float theta = acos(clamp(dir.z,-1.0,1.0)) / 3.14159;
+          vec2 uv2 = vec2(phi, theta);
+
+          vec2 q = vec2(fbm(uv2*2.5 + t*0.05), fbm(uv2*2.5 + vec2(5.2,1.3) + t*0.04));
+          vec2 r = vec2(fbm(uv2*2.0 + 4.0*q + t*0.03), fbm(uv2*2.0 + 4.0*q + vec2(1.7,9.2) + t*0.025));
+          float f = fbm(uv2 + 3.5*r);
+
+          vec3 col = mix(vec3(0.04,0.05,0.16), vec3(0.10,0.30,0.75),  smoothstep(0.2,0.5,f));
+          col = mix(col, vec3(0.30,0.26,0.78), smoothstep(0.45,0.75,f));
+          col = mix(col, vec3(0.48,0.34,0.90),  smoothstep(0.72,0.95,f));
+          col *= smoothstep(0.15,0.6,f) * 1.3;
+          col += vec3(0.01,0.01,0.04);
+          return col;
+        }
+
+        // ── Ray–sphere intersection ────────────────────────
+        vec2 raySphere(vec3 ro, vec3 rd, float r){
+          float b=dot(ro,rd), c=dot(ro,ro)-r*r, d=b*b-c;
+          if(d<0.0) return vec2(-1.0);
+          float s=sqrt(d);
+          return vec2(-b-s,-b+s);
+        }
+
+        // ── Refract a ray through a glass sphere ────────────
+        // Returns exit direction after 2 refractions, with given IOR
+        vec3 refractSphere(vec3 ro, vec3 rd, float sphereR, float ior){
+          vec2 t1 = raySphere(ro, rd, sphereR);
+          if(t1.x < 0.0) return rd; // miss
+          vec3 p1  = ro + rd * t1.x;
+          vec3 N1  = normalize(p1);
+          vec3 rd2 = refract(rd, N1, 1.0/ior);
+          if(dot(rd2,rd2) < 0.5) rd2 = reflect(rd, N1); // TIR fallback
+
+          // Exit point
+          vec3 ro2 = p1 + rd2*0.002;
+          float b2=dot(ro2,rd2), c2=dot(ro2,ro2)-sphereR*sphereR, d2=b2*b2-c2;
+          if(d2 < 0.0) return rd2;
+          float tExit = -b2 + sqrt(d2);
+          vec3 p2  = ro2 + rd2*tExit;
+          vec3 N2  = normalize(p2);  // outward at exit
+          vec3 rd3 = refract(rd2, -N2, ior);
+          if(dot(rd3,rd3) < 0.5) rd3 = reflect(rd2, -N2);
+          return rd3;
+        }
+
+        void main(){
+          vec2 uv = gl_FragCoord.xy/uRes;
+          float asp = uRes.x/uRes.y;
+
+          // Pixel to NDC with aspect
+          vec2 ndc = (uv-0.5)*vec2(asp,1.0)*2.0;
+
+          float t = uTime*0.18;
+
+          // Camera slightly offset by mouse
+          vec3 ro = vec3(uMouse.x*0.15, uMouse.y*0.10, 2.5);
+          vec3 rd = normalize(vec3(ndc, -2.0));
+
+          // Sphere at origin
+          float R = 0.72;
+          vec2 hit = raySphere(ro-vec3(0,0,0), rd, R);
+
+          vec3 col;
+          if(hit.x > 0.0){
+            vec3 p1 = (ro) + rd*hit.x;
+            vec3 N1 = normalize(p1);
+
+            // Fresnel (Schlick approximation)
+            float cosTheta = abs(dot(-rd, N1));
+            float F0 = 0.04; // glass-air base reflectance
+            float fresnel = F0 + (1.0-F0)*pow(1.0-cosTheta, 5.0);
+            fresnel = clamp(fresnel, 0.0, 1.0);
+
+            // Chromatic aberration: 3 channels with different IOR
+            vec3 rdR = refractSphere(ro, rd, R, 1.48);
+            vec3 rdG = refractSphere(ro, rd, R, 1.50);
+            vec3 rdB = refractSphere(ro, rd, R, 1.53);
+            vec3 refractCol = vec3(
+              sampleBg(rdR, t).r,
+              sampleBg(rdG, t).g,
+              sampleBg(rdB, t).b
+            );
+
+            // Reflection
+            vec3 refl = reflect(rd, N1);
+            vec3 reflCol = sampleBg(refl, t) * 1.3;
+
+            // Slight inner fog/tint for glass density
+            float glassDepth = hit.y - hit.x; // chord length
+            vec3 glassFilter = exp(-vec3(0.08, 0.06, 0.04) * glassDepth);
+            refractCol *= glassFilter;
+
+            // Combine refraction + reflection
+            col = mix(refractCol, reflCol, fresnel);
+
+            // Thin specular highlight (key light)
+            vec3 lightDir = normalize(vec3(0.8, 1.0, 1.2));
+            float spec = pow(max(dot(reflect(-rd, N1), lightDir), 0.0), 120.0);
+            col += spec * 0.6;
+
+            // Rim light glow
+            float rim = pow(1.0 - cosTheta, 3.5);
+            col += rim * vec3(0.30, 0.25, 0.55) * 0.35;
+
+          } else {
+            // Background
+            col = sampleBg(normalize(vec3(ndc/2.0, -1.0)), t) * 0.55;
+          }
+
+          // Soft sphere halo
+          float haloDist = length(ndc/vec2(1.0,1.0) - vec2(0.0));
+          float halo = exp(-max(haloDist-R*1.5,0.0)*3.0) * 0.08;
+          col += halo * vec3(0.4, 0.3, 0.8);
+
+          // Vignette
+          float vig = 1.0 - dot(uv-0.5,(uv-0.5)*1.8);
+          col *= vig;
+
+          gl_FragColor = vec4(clamp(col,0.0,1.0),1.0);
+        }
+      `;
+
+      function compile(type,src){ const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
+      const prog=gl.createProgram();
+      gl.attachShader(prog,compile(gl.VERTEX_SHADER,VS));
+      gl.attachShader(prog,compile(gl.FRAGMENT_SHADER,FS));
+      gl.linkProgram(prog); gl.useProgram(prog);
+
+      const buf=gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+      gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+      const loc=gl.getAttribLocation(prog,'a_pos');
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+
+      const uTime  = gl.getUniformLocation(prog,'uTime');
+      const uRes   = gl.getUniformLocation(prog,'uRes');
+      const uMouse = gl.getUniformLocation(prog,'uMouse');
+
+      // Smooth mouse in NDC -1..1
+      let tmx=0, tmy=0, smx=0, smy=0;
+      window.addEventListener('mousemove',e=>{
+        tmx=(e.clientX/innerWidth)*2-1; tmy=-((e.clientY/innerHeight)*2-1);
+      });
+      window.addEventListener('mouseleave',()=>{ tmx=0; tmy=0; });
+      window.addEventListener('touchmove',e=>{
+        e.preventDefault();
+        tmx=(e.touches[0].clientX/innerWidth)*2-1;
+        tmy=-((e.touches[0].clientY/innerHeight)*2-1);
+      },{passive:false});
+
+      const DPR=Math.min(devicePixelRatio,1.5);
+      const resize=()=>{
+        canvas.width=Math.floor(innerWidth*DPR); canvas.height=Math.floor(innerHeight*DPR);
+        gl.viewport(0,0,canvas.width,canvas.height);
+        gl.uniform2f(uRes,canvas.width,canvas.height);
+      };
+      window.addEventListener('resize',resize); resize();
+
+      if(reduced){
+        gl.uniform1f(uTime,0); gl.uniform2f(uMouse,0,0);
+        gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+      } else {
+        const loop=ms=>{
+          requestAnimationFrame(loop);
+          smx+=(tmx-smx)*0.05; smy+=(tmy-smy)*0.05;
+          gl.uniform1f(uTime,ms*0.001);
+          gl.uniform2f(uMouse,smx,smy);
+          gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+        };
+        requestAnimationFrame(loop);
+      }
+    }
+  </script>
+
+  <!-- LUMEN de-slop grade + watermark (portfolio) -->
+  <style>
+    .lm-vig{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(125% 108% at 50% 40%, transparent 52%, rgba(3,4,12,.62) 100%);}
+    .lm-grain{position:fixed;inset:0;z-index:3;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");background-size:150px 150px;opacity:.06;mix-blend-mode:overlay;}
+    .lm-mark{position:fixed;right:20px;bottom:16px;z-index:9999;
+      font:600 11px/1 system-ui,-apple-system,sans-serif;letter-spacing:.3em;
+      color:rgba(255,255,255,.5);text-decoration:none;padding:8px 4px;transition:color .3s;}
+    .lm-mark:hover{color:rgba(255,255,255,.92);}
+    @media (prefers-reduced-motion:no-preference){.lm-grain{animation:lmg 1.2s steps(3) infinite;}}
+    @keyframes lmg{0%{transform:translate(0,0)}33%{transform:translate(-4px,3px)}66%{transform:translate(3px,-3px)}100%{transform:translate(0,0)}}
+  </style>
+  <div class="lm-vig" aria-hidden="true"></div>
+  <div class="lm-grain" aria-hidden="true"></div>
+  <a class="lm-mark" href="../works.html" title="LUMEN 制作例へ戻る">LUMEN</a>
+</body>
+</html>

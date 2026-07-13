@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>動く演出：コースティクス｜LUMEN 制作サンプル</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #010c18; }
+    #c { position: fixed; inset: 0; display: block; width: 100%; height: 100%; }
+    #fallback { display: none; position: fixed; inset: 0; background: #010c18; }
+    #content {
+      position: fixed; inset: 0; z-index: 10; pointer-events: none;
+      display: flex; flex-direction: column; justify-content: flex-end; align-items: flex-start;
+      padding: 6vh 7vw;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+    }
+    #content h1 {
+      font-size: clamp(2rem, 5vw, 4.5rem); font-weight: 700; letter-spacing: -0.03em;
+      color: rgba(160, 230, 255, 0.85);
+    }
+    #content p {
+      margin-top: 0.6rem; font-size: clamp(0.8rem, 1.3vw, 1rem);
+      color: rgba(100, 190, 220, 0.4); letter-spacing: 0.18em; 
+    }
+  </style>
+</head>
+<body>
+  <div id="fallback"></div>
+  <canvas id="c"></canvas>
+  <div id="content">
+    <h1>水底の、ゆらぎ。</h1>
+    <p>クリックで波紋。水面を通した光が底に模様を描きます。</p>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('c');
+    const gl = canvas.getContext('webgl');
+    if (!gl) {
+      canvas.style.display = 'none';
+      document.getElementById('fallback').style.display = 'block';
+    } else {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const VS = `attribute vec2 a_pos; void main(){ gl_Position=vec4(a_pos,0,1); }`;
+      const FS = `
+        precision highp float;
+        uniform float uTime;
+        uniform vec2  uRes;
+        uniform vec2  uClick;   // last click position (UV)
+        uniform float uClickT;  // time of last click
+
+        float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+        float noise(vec2 p){
+          vec2 i=floor(p),f=fract(p),u=f*f*(3.0-2.0*f);
+          return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y);
+        }
+        float fbm(vec2 p){
+          float v=0.0,a=0.6;
+          for(int i=0;i<4;i++){v+=a*noise(p);p*=2.1;a*=0.5;}
+          return v;
+        }
+
+        // Wave interference: signed result, caustics at zero-crossings
+        float causticField(vec2 p, float t){
+          // 4 traveling waves at different angles
+          float v = sin(p.x*5.0 + sin(p.y*3.8 + t) + t*0.5)
+                  + sin(p.y*4.5 + sin(p.x*5.2 + t*1.15) + t*0.35)
+                  + sin((p.x+p.y)*3.8 + t*0.7)
+                  + sin((p.x*1.3 - p.y)*4.2 + t*0.55);
+          // Add gentle noise warp for organic look
+          v += fbm(p*1.5 + t*0.06) * 1.8;
+          return v;
+        }
+
+        void main(){
+          vec2 uv = gl_FragCoord.xy/uRes;
+          float asp = uRes.x/uRes.y;
+          vec2 p = vec2(uv.x*asp, uv.y) * 5.0;
+          float t = uTime * 0.55;
+
+          // Click ripple: circular wave expanding from click point
+          float clickEffect = 0.0;
+          if(uClickT > 0.0){
+            float age = uTime - uClickT;
+            if(age < 5.0){
+              vec2 cUV = vec2(uClick.x*asp, uClick.y) * 5.0;
+              float dist = distance(p, cUV);
+              float speed = 3.5;
+              float radius = age * speed;
+              float wave = sin(dist * 5.0 - radius * 2.0) * exp(-dist * 0.4) * exp(-age * 0.9);
+              clickEffect = wave * 1.5;
+            }
+          }
+
+          float field = causticField(p, t) + clickEffect * 3.5;
+          float c = field / 7.0; // normalize to ~-1..1
+
+          // Caustics = bright network at zero-crossings
+          float caustic = pow(1.0 - abs(c), 10.0); // very sharp peaks at c=0
+          caustic = max(caustic, 0.0) * 1.5;
+
+          // Deep secondary glow (softer layer)
+          float caustic2 = pow(1.0 - abs(sin(field * 0.8)), 5.0) * 0.3;
+
+          // Base ocean floor color
+          vec3 deepWater = vec3(0.005, 0.040, 0.070);
+          vec3 shallowWater = vec3(0.010, 0.070, 0.120);
+          float depth = fbm(p * 0.3 + t * 0.02);
+          vec3 base = mix(deepWater, shallowWater, depth);
+
+          // Caustic light: cyan-white
+          vec3 causticColor = mix(vec3(0.2, 0.8, 1.0), vec3(1.0, 1.0, 1.0), caustic);
+          vec3 col = base + causticColor * caustic * 0.55 + vec3(0.05, 0.20, 0.35) * caustic2;
+
+          // Subtle surface shimmer from click
+          if(uClickT > 0.0){
+            float age = uTime - uClickT;
+            vec2 cUV = vec2(uClick.x*asp, uClick.y) * 5.0;
+            float dist = distance(p, cUV);
+            float shimmer = exp(-dist * 0.6) * exp(-age * 0.5) * 0.25;
+            col += shimmer * vec3(0.3, 0.7, 1.0);
+          }
+
+          // Vignette
+          float vig = 1.0 - dot(uv-0.5,(uv-0.5)*1.8);
+          col *= vig;
+
+          // Subtle grain (underwater particles)
+          col += (hash(uv*uRes*0.3 + uTime*0.5) - 0.5) * 0.012;
+
+          gl_FragColor = vec4(clamp(col,0.0,1.0),1.0);
+        }
+      `;
+
+      function compile(type,src){ const s=gl.createShader(type); gl.shaderSource(s,src); gl.compileShader(s); return s; }
+      const prog = gl.createProgram();
+      gl.attachShader(prog,compile(gl.VERTEX_SHADER,VS));
+      gl.attachShader(prog,compile(gl.FRAGMENT_SHADER,FS));
+      gl.linkProgram(prog); gl.useProgram(prog);
+
+      const buf=gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+      gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+      const loc=gl.getAttribLocation(prog,'a_pos');
+      gl.enableVertexAttribArray(loc);
+      gl.vertexAttribPointer(loc,2,gl.FLOAT,false,0,0);
+
+      const uTime   = gl.getUniformLocation(prog,'uTime');
+      const uRes    = gl.getUniformLocation(prog,'uRes');
+      const uClick  = gl.getUniformLocation(prog,'uClick');
+      const uClickT = gl.getUniformLocation(prog,'uClickT');
+
+      let clickX=0.5, clickY=0.5, clickTime=-100;
+
+      const doClick = (cx, cy) => {
+        clickX = cx / innerWidth;
+        clickY = 1.0 - cy / innerHeight; // flip Y
+        clickTime = performance.now() / 1000;
+      };
+
+      window.addEventListener('click',   e => doClick(e.clientX, e.clientY));
+      window.addEventListener('touchstart', e => { e.preventDefault(); doClick(e.touches[0].clientX, e.touches[0].clientY); },{passive:false});
+
+      const DPR = Math.min(devicePixelRatio,1.5);
+      const resize=()=>{
+        canvas.width=Math.floor(innerWidth*DPR); canvas.height=Math.floor(innerHeight*DPR);
+        gl.viewport(0,0,canvas.width,canvas.height);
+        gl.uniform2f(uRes,canvas.width,canvas.height);
+      };
+      window.addEventListener('resize',resize); resize();
+      gl.uniform2f(uClick,clickX,clickY);
+      gl.uniform1f(uClickT,-100);
+
+      if(reduced){
+        gl.uniform1f(uTime,0); gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+      } else {
+        const loop=ms=>{
+          requestAnimationFrame(loop);
+          const t = ms*0.001;
+          gl.uniform1f(uTime, t);
+          gl.uniform2f(uClick, clickX, clickY);
+          gl.uniform1f(uClickT, clickTime);
+          gl.drawArrays(gl.TRIANGLE_STRIP,0,4);
+        };
+        requestAnimationFrame(loop);
+      }
+    }
+  </script>
+
+  <!-- LUMEN de-slop grade + watermark (portfolio) -->
+  <style>
+    .lm-vig{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(125% 108% at 50% 40%, transparent 52%, rgba(3,4,12,.62) 100%);}
+    .lm-grain{position:fixed;inset:0;z-index:3;pointer-events:none;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");background-size:150px 150px;opacity:.06;mix-blend-mode:overlay;}
+    .lm-mark{position:fixed;right:20px;bottom:16px;z-index:9999;
+      font:600 11px/1 system-ui,-apple-system,sans-serif;letter-spacing:.3em;
+      color:rgba(255,255,255,.5);text-decoration:none;padding:8px 4px;transition:color .3s;}
+    .lm-mark:hover{color:rgba(255,255,255,.92);}
+    @media (prefers-reduced-motion:no-preference){.lm-grain{animation:lmg 1.2s steps(3) infinite;}}
+    @keyframes lmg{0%{transform:translate(0,0)}33%{transform:translate(-4px,3px)}66%{transform:translate(3px,-3px)}100%{transform:translate(0,0)}}
+  </style>
+  <div class="lm-vig" aria-hidden="true"></div>
+  <div class="lm-grain" aria-hidden="true"></div>
+  <a class="lm-mark" href="../works.html" title="LUMEN 制作例へ戻る">LUMEN</a>
+</body>
+</html>

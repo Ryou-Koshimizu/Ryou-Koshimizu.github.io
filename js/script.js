@@ -1,50 +1,77 @@
 'use strict';
 
-gsap.registerPlugin(ScrollTrigger);
+/* GSAP/ScrollTrigger が読めたかを判定。失敗時は no-gsap クラスでコンテンツを必ず可視化 */
+const GSAP_OK = !!(window.gsap && window.ScrollTrigger);
+if (GSAP_OK) {
+  gsap.registerPlugin(ScrollTrigger);
+} else {
+  document.documentElement.classList.add('no-gsap');
+}
 
 const isTouchDevice = window.matchMedia('(hover: none)').matches;
 const isReduced     = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ============================================================
-   LOADING
+   SITE INIT
+   ★ローダーから切り離してある。以前は onComplete で呼んでいたため、
+     ローダーが出ている 3.25 秒間、ハンバーガー・FAQ・タブ・フォームが
+     すべて死んでいた（実測）。初期化は DOM が出来た時点で走らせる。
+============================================================ */
+let __inited = false;
+function initSite() {
+  if (__inited) return;          // 二重初期化ガード
+  __inited = true;
+  /* 各セットアップを個別に try/catch。1つが失敗しても他（ナビ/フォーム/FAQ等）は動かす */
+  [setupCursor, setupHeader, setupHero, setupPageHero, setupProgressBar,
+   setupServices, setupStats, setupReveal, setupFlow, setupFAQ, setupTabs,
+   setupForm, setupPageTop, setupSmoothScroll, setupTilt, setupMagnetic,
+   setupAnimationPause, setupMarquee].forEach(function (fn) {
+    try { fn(); } catch (e) { console.warn('init skip:', fn && fn.name, e); }
+  });
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initSite, { once: true });
+} else {
+  initSite();
+}
+
+
+/* ============================================================
+   LOADING（演出のみ。サイトの初期化はもう待たせない）
    数字カウント(0→100) + バー塗り → パネルがスライドアップして消える
+   ★LCPが 4,980ms（Google基準 4,000ms超＝Poor）だったため:
+     ・尺を 2.2s+0.9s → 0.9s+0.5s に短縮
+     ・同一セッションの2回目以降はスキップ（初回訪問の第一印象だけ残す）
 ============================================================ */
 (function () {
   const screen = document.getElementById('loading');
   const body   = document.body;
 
-  /* 内部ページには #loading がない → 即座に initSite() を呼んで終了 */
-  if (!screen) {
-    initSite();
+  if (!screen) return;           // 内部ページにはローダーが無い
+
+  const finish = () => {
+    body.style.overflow  = '';
+    screen.style.display = 'none';
+  };
+
+  /* 動き抑制 / GSAP未読込 / 同一セッションで既に見た → 演出なしで即表示 */
+  let seen = false;
+  try { seen = sessionStorage.getItem('lumen_ld') === '1'; } catch (e) {}
+  if (isReduced || !GSAP_OK || seen) {
+    finish();
     return;
   }
+  try { sessionStorage.setItem('lumen_ld', '1'); } catch (e) {}
 
   const bar   = document.getElementById('ldBar');
   const numEl = document.getElementById('ldNum');
-
   body.style.overflow = 'hidden';
 
-  if (isReduced) {
-    screen.style.display = 'none';
-    body.style.overflow  = '';
-    initSite();
-    return;
-  }
-
   const obj = { val: 0 };
-
-  const ldTl = gsap.timeline({
-    onComplete() {
-      body.style.overflow  = '';
-      screen.style.display = 'none';
-      initSite();
-    }
-  });
-
-  ldTl
+  gsap.timeline({ onComplete: finish })
     .to(obj, {
       val: 100,
-      duration: 2.2,
+      duration: 0.9,
       ease: 'power2.inOut',
       onUpdate() {
         const v = Math.floor(obj.val);
@@ -54,34 +81,13 @@ const isReduced     = window.matchMedia('(prefers-reduced-motion: reduce)').matc
     })
     .to(screen, {
       yPercent: -100,
-      duration: 0.9,
+      duration: 0.5,
       ease: 'power3.inOut',
-    }, '+=0.15');
+    }, '+=0.1');
+
+  /* 保険：何かの理由でタイムラインが完走しなくても、3秒で必ず外す */
+  setTimeout(finish, 3000);
 })();
-
-
-/* ============================================================
-   SITE INIT — ローディング完了後に呼ばれる
-============================================================ */
-function initSite() {
-  setupCursor();
-  setupHeader();
-  setupHero();
-  setupPageHero();
-  setupProgressBar();
-  setupServices();
-  setupStats();
-  setupReveal();
-  setupFlow();
-  setupFAQ();
-  setupTabs();
-  setupForm();
-  setupPageTop();
-  setupSmoothScroll();
-  setupTilt();
-  setupMagnetic();
-  setupAnimationPause();
-}
 
 
 /* ============================================================
@@ -139,17 +145,19 @@ function setupHeader() {
   const hamburger = document.getElementById('hamburger');
   const overlay   = document.getElementById('navOverlay');
 
-  ScrollTrigger.create({
-    start: 'top -40',
-    onEnter:     () => header?.classList.add('scrolled'),
-    onLeaveBack: () => header?.classList.remove('scrolled'),
-  });
+  if (window.ScrollTrigger) {
+    ScrollTrigger.create({
+      start: 'top -40',
+      onEnter:     () => header?.classList.add('scrolled'),
+      onLeaveBack: () => header?.classList.remove('scrolled'),
+    });
 
-  ScrollTrigger.create({
-    start: 'top -400',
-    onEnter:     () => pageTop?.classList.add('visible'),
-    onLeaveBack: () => pageTop?.classList.remove('visible'),
-  });
+    ScrollTrigger.create({
+      start: 'top -400',
+      onEnter:     () => pageTop?.classList.add('visible'),
+      onLeaveBack: () => pageTop?.classList.remove('visible'),
+    });
+  }
 
   if (!hamburger || !overlay) return;
 
@@ -164,14 +172,16 @@ function setupHeader() {
     overlay.classList.add('open');
     overlay.removeAttribute('aria-hidden');
     document.body.classList.add('nav-open');
-    gsap.fromTo('.nav-ov-cat',
-      { opacity: 0, y: 10 },
-      { opacity: 1, y: 0, stagger: 0.08, duration: 0.45, ease: 'power3.out' }
-    );
-    gsap.fromTo('.nav-ov-list li',
-      { opacity: 0, y: 16 },
-      { opacity: 1, y: 0, stagger: 0.04, duration: 0.4, ease: 'power3.out', delay: 0.08 }
-    );
+    if (window.gsap) {
+      gsap.fromTo('.nav-ov-cat',
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, stagger: 0.08, duration: 0.45, ease: 'power3.out' }
+      );
+      gsap.fromTo('.nav-ov-list li',
+        { opacity: 0, y: 16 },
+        { opacity: 1, y: 0, stagger: 0.04, duration: 0.4, ease: 'power3.out', delay: 0.08 }
+      );
+    }
   };
 
   const closeMenu = () => {
@@ -183,11 +193,30 @@ function setupHeader() {
     // スクロール位置を復元してから ScrollTrigger を再計算
     document.body.style.top = '';
     window.scrollTo(0, savedScrollY);
-    requestAnimationFrame(() => ScrollTrigger.refresh());
+    hamburger.focus();                       // 閉じたらトリガーにフォーカスを返す
+    if (window.ScrollTrigger) requestAnimationFrame(() => ScrollTrigger.refresh());
   };
 
+  /* フォーカストラップ：開いている間、Tabがメニューの外へ抜けないようにする */
+  const trapFocus = e => {
+    if (e.key !== 'Tab' || !overlay.classList.contains('open')) return;
+    const items = overlay.querySelectorAll('a[href], button:not([disabled])');
+    if (!items.length) return;
+    const first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  };
+
+  hamburger.setAttribute('aria-controls', overlay.id || 'navOverlay');
+  document.addEventListener('keydown', trapFocus);
+
   hamburger.addEventListener('click', () => {
-    overlay.classList.contains('open') ? closeMenu() : openMenu();
+    if (overlay.classList.contains('open')) { closeMenu(); }
+    else {
+      openMenu();
+      const first = overlay.querySelector('a[href]');
+      if (first) first.focus();              // 開いたらメニュー内へフォーカスを移す
+    }
   });
 
   overlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
@@ -205,6 +234,8 @@ function setupHeader() {
    ③ オーバーレイ orbs: bg と逆方向マウス parallax で奥行き
 ============================================================ */
 function setupHero() {
+  /* サブページ15枚には .hero が無い → GSAPが 'target not found' を吐いていた */
+  if (!document.querySelector('.hero')) return;
   const bgImg = document.getElementById('heroBgImg');
 
   if (isReduced) {
@@ -376,16 +407,28 @@ function setupStats() {
     const to  = parseFloat(el.dataset.to);
     const dec = parseInt(el.dataset.dec || '0');
     const sfx = el.dataset.sfx || '';
-    const obj = { val: 0 };
+    const finalText = dec ? to.toFixed(dec) : String(to);
 
-    // suffix span を先に追加してからアニメーション開始
-    let sfxEl = null;
-    if (sfx) {
-      sfxEl = document.createElement('span');
+    /* 接尾辞span（+ / 倍 / % / 日〜 など）を数値の外側に一度だけ付与。
+       数値テキスト自体には接尾辞を含めない前提。二重付与も防止する。 */
+    if (sfx && !(el.nextElementSibling &&
+                 el.nextElementSibling.classList &&
+                 el.nextElementSibling.classList.contains('stat-sfx'))) {
+      const sfxEl = document.createElement('span');
       sfxEl.className = 'stat-sfx';
       sfxEl.textContent = sfx;
       el.parentNode.appendChild(sfxEl);
     }
+
+    /* 動き抑制 or GSAP未読込: カウント演出をせず最終値を即表示（他のsetup*と同じ方針） */
+    if (isReduced || !GSAP_OK) {
+      el.textContent = finalText;
+      return;
+    }
+
+    /* 表示直後の二重接尾辞を防ぐため、まず数値を 0 にリセットしてからカウントアップ */
+    el.textContent = dec ? (0).toFixed(dec) : '0';
+    const obj = { val: 0 };
 
     gsap.to(obj, {
       val: to,
@@ -396,7 +439,7 @@ function setupStats() {
         el.textContent = dec ? obj.val.toFixed(dec) : Math.floor(obj.val);
       },
       onComplete() {
-        el.textContent = dec ? to.toFixed(dec) : String(to);
+        el.textContent = finalText;
       }
     });
   });
@@ -470,12 +513,27 @@ function setupFlow() {
    FAQ ACCORDION
 ============================================================ */
 function setupFAQ() {
-  document.querySelectorAll('.faq-btn').forEach(btn => {
+  document.querySelectorAll('.faq-item').forEach((item, i) => {
+    const btn = item.querySelector('.faq-btn');
+    const ans = item.querySelector('.faq-ans');
+    if (!btn) return;
+
+    /* ARIA配線: HTMLを触らず開閉状態と対応パネルをスクリーンリーダーに伝える */
+    if (ans && !ans.id) ans.id = 'faq-ans-' + (i + 1);
+    if (ans) { btn.setAttribute('aria-controls', ans.id); ans.setAttribute('role', 'region'); }
+    btn.setAttribute('aria-expanded', item.classList.contains('open') ? 'true' : 'false');
+
     btn.addEventListener('click', () => {
-      const item   = btn.closest('.faq-item');
       const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
+      document.querySelectorAll('.faq-item.open').forEach(el => {
+        el.classList.remove('open');
+        const b = el.querySelector('.faq-btn');
+        if (b) b.setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
     });
   });
 }
@@ -503,20 +561,44 @@ function setupDropdown() {
    TAB SYSTEM（FAQ等）
 ============================================================ */
 function setupTabs() {
-  document.querySelectorAll('.tab-nav').forEach(nav => {
+  document.querySelectorAll('.tab-nav').forEach((nav, navIdx) => {
     const btns   = [...nav.querySelectorAll('.tab-btn')];
     const parent = nav.closest('.tab-section') || nav.parentElement;
     const panes  = [...(parent.querySelectorAll('.tab-pane'))];
+    nav.setAttribute('role', 'tablist');
+
+    const select = idx => {
+      btns.forEach((b, j) => {
+        const on = j === idx;
+        b.classList.toggle('active', on);
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+        b.setAttribute('tabindex', on ? '0' : '-1');
+      });
+      panes.forEach((p, j) => p.classList.toggle('active', j === idx));
+    };
+
     btns.forEach((btn, i) => {
-      btn.addEventListener('click', () => {
-        btns.forEach(b => b.classList.remove('active'));
-        panes.forEach(p => p.classList.remove('active'));
-        btn.classList.add('active');
-        if (panes[i]) panes[i].classList.add('active');
+      const pane = panes[i];
+      btn.setAttribute('role', 'tab');
+      if (pane) {
+        if (!pane.id) pane.id = 'tabpane-' + navIdx + '-' + i;
+        if (!btn.id)  btn.id  = 'tab-' + navIdx + '-' + i;
+        btn.setAttribute('aria-controls', pane.id);
+        pane.setAttribute('role', 'tabpanel');
+        pane.setAttribute('aria-labelledby', btn.id);
+        pane.setAttribute('tabindex', '0');
+      }
+      btn.addEventListener('click', () => select(i));
+      /* 矢印キーでタブ移動（WAI-ARIA準拠のロービングtabindex） */
+      btn.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+        e.preventDefault();
+        const next = (i + (e.key === 'ArrowRight' ? 1 : -1) + btns.length) % btns.length;
+        select(next); btns[next].focus();
       });
     });
-    if (btns[0]) btns[0].classList.add('active');
-    if (panes[0]) panes[0].classList.add('active');
+
+    select(0);
   });
 }
 
@@ -548,11 +630,26 @@ function setupForm() {
      未設定の間は「準備中」の案内を表示します（送信完了を偽装しません） */
   const FORM_ENDPOINT = '';
 
-  const showMessage = (msg, isError) => {
+  /* 未設定時・送信失敗時の逃がし先。ここが空だと問い合わせ導線が行き止まりになる */
+  const LINE_URL = 'https://line.me/R/ti/p/@794iqonk';
+
+  /* msg はコード内の固定文字列のみ。ユーザー入力は絶対に渡さないこと（XSS防止） */
+  const showMessage = (msg, isError, withLine) => {
     thanks.textContent = msg;
+    if (withLine && LINE_URL) {
+      const a = document.createElement('a');
+      a.href = LINE_URL;
+      a.target = '_blank';
+      a.rel = 'noopener';
+      a.className = 'btn btn-primary';
+      a.style.cssText = 'margin-top:12px;display:inline-flex';
+      a.textContent = '公式LINEで相談する →';
+      thanks.appendChild(document.createElement('br'));
+      thanks.appendChild(a);
+    }
     thanks.classList.toggle('error', !!isError);
     thanks.classList.add('show');
-    setTimeout(() => thanks.classList.remove('show'), 9000);
+    setTimeout(() => thanks.classList.remove('show'), withLine ? 30000 : 9000);
   };
 
   form.addEventListener('submit', async e => {
@@ -568,7 +665,7 @@ function setupForm() {
     if (honeypot && honeypot.value) return;   // スパムbot対策
 
     if (!FORM_ENDPOINT) {
-      showMessage('フォームは現在準備中です。お手数ですが、メールまたは公式LINEより直接ご連絡ください。', true);
+      showMessage('申し訳ありません。ただいまフォームを準備中です。公式LINEから同じ内容をお送りいただければ、1営業日以内にご返信します。', true, true);
       return;
     }
 
@@ -583,9 +680,9 @@ function setupForm() {
       });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       form.querySelectorAll('input, select, textarea').forEach(f => { f.value = ''; });
-      showMessage('お問い合わせありがとうございます。1営業日以内にメールまたはLINEにてご連絡いたします。', false);
+      showMessage('お問い合わせありがとうございます。1営業日以内にご連絡いたします。', false);
     } catch (err) {
-      showMessage('送信に失敗しました。お手数ですが、時間をおいて再度お試しいただくか、メールまたは公式LINEよりご連絡ください。', true);
+      showMessage('送信に失敗しました。お手数ですが、時間をおいて再度お試しいただくか、公式LINEよりご連絡ください。', true, true);
     } finally {
       btn.textContent = '送信する →'; btn.disabled = false;
     }
@@ -695,5 +792,20 @@ function setupSmoothScroll() {
       const top = target.getBoundingClientRect().top + window.scrollY - parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h'));
       window.scrollTo({ top, behavior: 'smooth' });
     });
+  });
+}
+
+/* ============================================================
+   MARQUEE PAUSE — WCAG 2.2.2（自動で動くコンテンツは停止できること）
+   従来は hover / focus-within のみ ＝ タッチ端末では停止不能だった
+============================================================ */
+function setupMarquee() {
+  const btn = document.getElementById('mqToggle');
+  const mq  = btn && btn.closest('.mq');
+  if (!btn || !mq) return;
+  btn.addEventListener('click', () => {
+    const paused = mq.classList.toggle('is-paused');
+    btn.setAttribute('aria-pressed', String(paused));
+    btn.querySelector('.mq-toggle-txt').textContent = paused ? '再生' : '一時停止';
   });
 }

@@ -1,0 +1,40 @@
+# ============================================================
+# Apache 用設定（Netlify/Cloudflare Pages の場合は _headers を使用）
+# ============================================================
+
+# --- 404 ページ ---
+ErrorDocument 404 /404.html
+
+# --- セキュリティヘッダ ---
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://formspree.io https://ssgform.com; frame-ancestors 'self'; base-uri 'self'; form-action 'self' https://formspree.io https://ssgform.com; upgrade-insecure-requests"
+  # HSTS: HTTPS が安定稼働してから下行のコメントを外して有効化
+  # Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+</IfModule>
+
+# --- HTTPS 強制リダイレクト ---
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} off
+  RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</IfModule>
+
+# --- gzip 圧縮 ---
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain text/xml application/javascript application/json image/svg+xml
+</IfModule>
+
+# --- ブラウザキャッシュ ---
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType image/webp "access plus 30 days"
+  ExpiresByType image/png  "access plus 30 days"
+  ExpiresByType image/svg+xml "access plus 30 days"
+  ExpiresByType text/css   "access plus 1 day"
+  ExpiresByType application/javascript "access plus 7 days"
+  ExpiresByType text/html  "access plus 0 seconds"
+</IfModule>

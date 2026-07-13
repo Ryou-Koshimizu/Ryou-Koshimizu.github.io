@@ -17,5 +17,4 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
-# ※ 下記のURLを実際のサイトURLに変更してください
-Sitemap: https://YOUR-DOMAIN.com/sitemap.xml
+Sitemap: https://ryou-koshimizu.github.io/Lumen/sitemap.xml

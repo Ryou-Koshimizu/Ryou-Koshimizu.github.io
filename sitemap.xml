@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ※ https://YOUR-DOMAIN.com の部分を実際のサイトURLに変更してください -->
+<!-- ※ https://ryou-koshimizu.github.io/Lumen の部分を実際のサイトURLに変更してください -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://YOUR-DOMAIN.com/</loc><lastmod>2026-06-10</lastmod><priority>1.0</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/services.html</loc><lastmod>2026-06-10</lastmod><priority>0.9</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/hp.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/lp.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/options.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/pricing.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/restaurant.html</loc><lastmod>2026-06-10</lastmod><priority>0.7</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/seikotsuin.html</loc><lastmod>2026-06-10</lastmod><priority>0.7</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/cases.html</loc><lastmod>2026-06-10</lastmod><priority>0.7</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/flow.html</loc><lastmod>2026-06-10</lastmod><priority>0.7</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/faq.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/contact.html</loc><lastmod>2026-06-10</lastmod><priority>0.7</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/about.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/privacy.html</loc><lastmod>2026-06-10</lastmod><priority>0.4</priority></url>
-  <url><loc>https://YOUR-DOMAIN.com/law.html</loc><lastmod>2026-06-10</lastmod><priority>0.4</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/</loc><lastmod>2026-06-10</lastmod><priority>1.0</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/services.html</loc><lastmod>2026-06-10</lastmod><priority>0.9</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/gallery.html</loc><lastmod>2026-07-09</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/works.html</loc><lastmod>2026-07-09</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/hp.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/lp.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/options.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/pricing.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/flow.html</loc><lastmod>2026-06-10</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/faq.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/contact.html</loc><lastmod>2026-06-10</lastmod><priority>0.7</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/about.html</loc><lastmod>2026-06-10</lastmod><priority>0.8</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/privacy.html</loc><lastmod>2026-06-10</lastmod><priority>0.4</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/law.html</loc><lastmod>2026-06-10</lastmod><priority>0.4</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/restaurant.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/Lumen/seikotsuin.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
