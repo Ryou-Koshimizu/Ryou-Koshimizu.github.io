@@ -2374,3 +2374,5 @@ a.work-card { text-decoration: none; color: inherit; display: block; }
   font-size: .72rem; font-style: normal; font-weight: 400;
   color: var(--dim); line-height: 1.6;
 }
+/* 和文見出しが単語の途中で割れないように（「負いま/す。」を防ぐ） */
+.maker-lead h3 { line-break: strict; overflow-wrap: normal; }
