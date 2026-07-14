@@ -17,4 +17,4 @@ Allow: /
 User-agent: ClaudeBot
 Allow: /
 
-Sitemap: https://ryou-koshimizu.github.io/Lumen/sitemap.xml
+Sitemap: https://ryou-koshimizu.github.io/sitemap.xml
