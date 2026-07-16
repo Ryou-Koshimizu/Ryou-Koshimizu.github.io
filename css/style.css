@@ -1104,6 +1104,10 @@ body.nav-open { position: fixed; width: 100%; overflow-y: scroll; }
   font-weight: 700; line-height: 1.12; letter-spacing: -0.03em;
   margin-bottom: 20px; position: relative; z-index: 1;
 }
+/* 見出しの改行は max-width では制御しない。日本語の自動折返しは文節を見ないので、
+   幅で切ると「制作会社を「実績の多さ」で選ぶ / と、 / 失敗しやすい」のように
+   読点だけが孤立する（860pxで実際に発生した）。改行位置は各ページが <br> で明示する。
+   読みものの h1 は読点で改行する、を全記事共通のルールにしてある。 */
 .ph-h1 em { color: var(--accent); font-style: normal; }
 .ph-sub {
   font-size: clamp(.9rem, 1.6vw, 1.05rem);
