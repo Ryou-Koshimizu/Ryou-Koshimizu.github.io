@@ -31,6 +31,8 @@
 - /insights.html — 一覧
 - /insight-erabikata.html — 制作会社を「実績の多さ」で選ぶと失敗しやすい（WACUL調査：実績で選ぶと失敗確率30%＝全基準中最悪／メタフェイズ調査：不満の1位はビジネス理解不足46.2%）
 - /insight-ai-search.html — ChatGPTに「この辺の◯◯」と聞かれたとき、あなたの店は出てくるか（AI検索対策の仕組みと、今日から無料でできる5つのこと）
+- /insight-seo.html — AI検索の時代に、なぜまだSEOが要るのか（Google公式が「SEOはまだ重要」と明記。GoogleのAIはGoogle検索の索引を見ているため。LUMENの「やること・やらないこと」を根拠URL付きで公開）
+- /insight-aeo.html — ChatGPTは、Googleとは別のドアから来ます（ChatGPT・Perplexityは自前のボットで直接巡回するため、Googleの順位では代替できない。「GPTBotを塞ぐとChatGPTに出なくなる」が誤りである理由も）
 - /insight-0yen.html — 「初期費用0円」のホームページは、なぜ0円でできるのか（0円＝分割。12ヶ月総額 ¥357,600〜¥1,077,600 を全公開。0円モデルを見分ける7項目）
 
 ## 連絡

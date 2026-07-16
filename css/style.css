@@ -1110,6 +1110,7 @@ body.nav-open { position: fixed; width: 100%; overflow-y: scroll; }
   color: var(--muted); line-height: 1.85;
   max-width: 540px; position: relative; z-index: 1;
 }
+.ph-sub strong { color: var(--ink); }
 /* page-hero 2カラム（テキスト + 画像） */
 .ph-wrap {
   display: grid;
@@ -2536,6 +2537,12 @@ a.work-card { text-decoration: none; color: inherit; display: block; }
   font-size: clamp(1.25rem,2.8vw,1.65rem); font-weight: 700; color: var(--ink);
   line-height: 1.6; margin: 52px 0 20px; padding-bottom: 12px;
   border-bottom: 1px solid var(--border);
+}
+/* h2 は罫線つき・52px空け。h3 は罫線なし・34px空けで一段下に置く。
+   本文の strong（ink/600）と紛れないよう、サイズと余白で差をつける */
+.art-h3 {
+  font-size: 1.08rem; font-weight: 700; color: var(--ink);
+  line-height: 1.7; margin: 34px 0 14px;
 }
 .art-wrap p { font-size: .95rem; line-height: 2.05; color: var(--muted); margin: 0 0 20px; }
 .art-wrap p strong { color: var(--ink); font-weight: 600; }
