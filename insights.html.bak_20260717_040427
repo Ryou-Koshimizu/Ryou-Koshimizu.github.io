@@ -20,16 +20,16 @@
   <meta property="og:site_name" content="LUMEN">
   <meta property="og:title" content="読みもの｜制作会社の選び方・AI検索対策・0円の仕組み｜LUMEN">
   <meta property="og:description" content="Web制作会社の選び方・AI検索対策・「初期費用0円」の仕組みについて、すべて出典つきで解説します。">
-  <meta property="og:url" content="https://ryou-koshimizu.github.io/insights.html">
-  <meta property="og:image" content="https://ryou-koshimizu.github.io/ogp.png">
+  <meta property="og:url" content="https://YOUR-DOMAIN.com/insights.html">
+  <meta property="og:image" content="https://YOUR-DOMAIN.com/ogp.png">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="canonical" href="https://ryou-koshimizu.github.io/insights.html">
+  <link rel="canonical" href="https://YOUR-DOMAIN.com/insights.html">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
   "name": "読みもの｜LUMEN",
-  "url": "https://ryou-koshimizu.github.io/insights.html",
+  "url": "https://YOUR-DOMAIN.com/insights.html",
   "description": "Web制作・AI検索対策・料金の仕組みについて、出典つきで解説します。",
   "mainEntity": {
     "@type": "ItemList",
@@ -37,19 +37,19 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "url": "https://ryou-koshimizu.github.io/insight-erabikata.html",
+        "url": "https://YOUR-DOMAIN.com/insight-erabikata.html",
         "name": "制作会社を「実績の多さ」で選ぶと、失敗しやすい"
       },
       {
         "@type": "ListItem",
         "position": 2,
-        "url": "https://ryou-koshimizu.github.io/insight-ai-search.html",
+        "url": "https://YOUR-DOMAIN.com/insight-ai-search.html",
         "name": "ChatGPTに「この辺の◯◯」と聞かれたとき、あなたの店は出てくるか"
       },
       {
         "@type": "ListItem",
         "position": 3,
-        "url": "https://ryou-koshimizu.github.io/insight-0yen.html",
+        "url": "https://YOUR-DOMAIN.com/insight-0yen.html",
         "name": "「初期費用0円」のホームページは、なぜ0円でできるのか"
       }
     ]
@@ -65,13 +65,13 @@
       "@type": "ListItem",
       "position": 1,
       "name": "Home",
-      "item": "https://ryou-koshimizu.github.io/"
+      "item": "https://YOUR-DOMAIN.com/"
     },
     {
       "@type": "ListItem",
       "position": 2,
       "name": "読みもの",
-      "item": "https://ryou-koshimizu.github.io/insights.html"
+      "item": "https://YOUR-DOMAIN.com/insights.html"
     }
   ]
 }
@@ -159,27 +159,9 @@
         <p class="ins-desc">AIが答えるとき、選ばれるのは1〜3件だけ。検索10位ならスクロールで見てもらえましたが、AIの回答に載らなければ存在しないのと同じです。専門用語を使わずに、仕組みと「今日から無料でできる5つ」を説明します。</p>
         <span class="ins-more">読む →</span>
       </a>
-      <a href="insight-seo.html" class="ins-card reveal">
-        <div class="ins-card-top">
-          <span class="ins-num">03</span>
-          <span class="ins-cat">AI検索とSEO</span>
-        </div>
-        <h2 class="ins-title">AI検索の時代に、なぜまだSEOが要るのか</h2>
-        <p class="ins-desc">「AIに全部持っていかれる」と言われます。ところがGoogle自身は公式ドキュメントで「In short, yes!（SEOはまだ重要）」と答えていました。理由は、GoogleのAIがGoogle検索の索引をそのまま見ているから。あわせてLUMENが「やること・やらないこと」を、根拠のURL付きで公開します。</p>
-        <span class="ins-more">読む →</span>
-      </a>
-      <a href="insight-aeo.html" class="ins-card reveal">
-        <div class="ins-card-top">
-          <span class="ins-num">04</span>
-          <span class="ins-cat">AI検索とSEO</span>
-        </div>
-        <h2 class="ins-title">ChatGPTは、Googleとは別のドアから来ます</h2>
-        <p class="ins-desc">SEOをやればChatGPTにも出る、とは限りません。ChatGPTとPerplexityは自前のロボットで直接見に来ているからです。3社の公式文書を読み比べ、Googleの順位では代われない部分を整理しました。「GPTBotを塞ぐとChatGPTに出なくなる」が誤りである理由も。</p>
-        <span class="ins-more">読む →</span>
-      </a>
       <a href="insight-0yen.html" class="ins-card reveal">
         <div class="ins-card-top">
-          <span class="ins-num">05</span>
+          <span class="ins-num">03</span>
           <span class="ins-cat">料金の仕組み</span>
         </div>
         <h2 class="ins-title">「初期費用0円」のホームページは、なぜ0円でできるのか</h2>

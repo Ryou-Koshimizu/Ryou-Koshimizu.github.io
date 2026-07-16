@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="「AIに全部持っていかれるからSEOは終わり」と言われます。Google自身は2026年7月の公式ドキュメントで「In short, yes!（SEOはまだ重要）」と答えています。日本の生成AI利用率26.7%という総務省の数字とあわせて、出典付きで説明します。">
+  <meta name="author" content="LUMEN">
+  <title>「SEOはもう終わり」と言われて、Google自身は何と答えているか｜LUMEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add('js');addEventListener('DOMContentLoaded',function(){setTimeout(function(){if(!window.gsap)document.documentElement.classList.add('no-gsap');},1200);});</script>
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}body,a,.btn,button{cursor:auto!important}</style></noscript>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#07080B">
+  <script defer src="js/analytics.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="LUMEN">
+  <meta property="og:title" content="「SEOはもう終わり」と言われて、Google自身は何と答えているか｜LUMEN">
+  <meta property="og:description" content="「AIに全部持っていかれるからSEOは終わり」と言われます。Google自身は2026年7月の公式ドキュメントで「In short, yes!」と答えています。出典付きで説明します。">
+  <meta property="og:url" content="https://YOUR-DOMAIN.com/insight-seo.html">
+  <meta property="og:image" content="https://YOUR-DOMAIN.com/ogp.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://YOUR-DOMAIN.com/insight-seo.html">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "「SEOはもう終わり」と言われて、Google自身は何と答えているか",
+  "description": "「AIに全部持っていかれるからSEOは終わり」と言われます。Google自身は2026年7月の公式ドキュメントで「In short, yes!（SEOはまだ重要）」と答えています。日本の生成AI利用率26.7%という総務省の数字とあわせて、出典付きで説明します。",
+  "url": "https://YOUR-DOMAIN.com/insight-seo.html",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://YOUR-DOMAIN.com/insight-seo.html"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "LUMEN",
+    "url": "https://YOUR-DOMAIN.com/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "LUMEN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://YOUR-DOMAIN.com/img/logo.webp"
+    }
+  },
+  "datePublished": "2026-07-17",
+  "dateModified": "2026-07-17",
+  "inLanguage": "ja"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://YOUR-DOMAIN.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "読みもの",
+      "item": "https://YOUR-DOMAIN.com/insights.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "「SEOはもう終わり」と言われて、Google自身は何と答えているか",
+      "item": "https://YOUR-DOMAIN.com/insight-seo.html"
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "AI検索が広まったら、SEOは意味がなくなりますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Googleは公式ドキュメントで「Is SEO still relevant for generative AI search?（生成AI検索においてSEOはまだ重要か）」という見出しを立て、「In short, yes!（端的に言えば、はい）」と答えています。理由も明記されていて、Google検索の生成AI機能が、従来の検索ランキングと品質のシステムを土台にしているからです。つまりAI検索対策とSEOは、Googleにとって別のものではありません。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "検索順位が1位だとクリック率は何%、10位だと何%ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "その数字の一次情報は、私たちが探した範囲では見つかりませんでした。Googleは順位別のクリック率を公表していません。よく引用される数値はすべてSEO事業者による独自の実測で、調査方法も対象も各社バラバラです。欧州委員会の2017年の決定文には順位別クリック率の表がありますが、その部分は黒塗りで非公開です。当社は、出典を辿れない数字は使いません。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "日本でも、みんなもうAIに聞いているのではないですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "総務省の令和7年版情報通信白書によると、日本で生成AIサービスを使ったことがある人の割合は2024年度調査で26.7%です。同じ調査で米国は68.8%、中国は81.2%でした。日本の利用率は増えてはいますが（2023年度は9.1%）、米国の約4割の水準です。「もう全員がAIに聞いている」という前提で施策を組むのは、少なくとも今の日本では早すぎます。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "結局、何から手をつければいいですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Googleが公式に挙げているのは、人のために作られた独自性のあるコンテンツ、良いページ体験、クローラーがコンテンツにアクセスできること、構造化データと表示内容の一致、といった基礎です。派手さはありません。逆にGoogleが「やらなくていい」と名指ししているのは、コンテンツの細切れ化、llms.txtのようなAI向けファイルの作成、不自然な言及集めです。まず基礎から順に埋めるのが最短です。"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+<a href="#main" class="skip-link">本文へスキップ</a>
+<div id="cursor"><div id="cursor-ring"></div><div id="cursor-dot"></div></div>
+<div id="progress-bar"></div>
+<header id="header">
+  <nav class="nav-inner wrap">
+    <a href="index.html" class="logo"><img src="img/logo.webp" alt="LUMEN" width="160" height="40" class="logo-img" /></a>
+        <div class="nav-right">
+      <a href="contact.html" class="nav-cta">無料相談</a>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+<div class="nav-overlay" id="navOverlay" aria-hidden="true">
+  <div class="nav-overlay__inner wrap">
+    <div class="nav-ov-col">
+      <div class="nav-ov-cat">Service</div>
+      <ul class="nav-ov-list">
+        <li><a href="services.html">サービス一覧</a></li>
+        <li><a href="lp.html">LP制作</a></li>
+        <li><a href="hp.html">HP制作</a></li>
+        <li><a href="options.html">オプション</a></li>
+        <li><a href="pricing.html">料金プラン</a></li><li><a href="pricing.html#comparison">他社との比較</a></li>
+      </ul>
+    </div>
+    <div class="nav-ov-col">
+      <div class="nav-ov-cat">Samples</div>
+      <ul class="nav-ov-list">
+        <li><a href="gallery.html">制作イメージ</a></li>
+        <li><a href="works.html">動く演出</a></li>
+      </ul>
+      <div class="nav-ov-cat" style="margin-top:34px">Company</div>
+      <ul class="nav-ov-list">
+        <li><a href="insights.html">読みもの</a></li>
+        <li><a href="about.html">会社について</a></li>
+        <li><a href="flow.html">制作の流れ</a></li>
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+    <div class="nav-ov-col">
+      <div class="nav-ov-cat">Contact</div>
+      <ul class="nav-ov-list">
+        <li><a href="contact.html">無料相談を予約する</a></li><li><a href="index.html#analytics">無料サイト診断</a></li>
+        <li><a href="privacy.html">プライバシーポリシー</a></li>
+        <li><a href="law.html">特定商取引法</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<section class="page-hero">
+  <div class="wrap">
+    <nav class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="insights.html">読みもの</a><span>/</span><span>SEOはもう終わりか</span></nav>
+    <div class="ph-label">INSIGHTS</div>
+    <h1 class="ph-h1">「SEOはもう終わり」と言われて、<br>Google自身は何と答えているか</h1>
+    <p class="ph-sub">AIに全部持っていかれる、という話をよく聞きます。ではGoogleは何と言っているのか。公式ドキュメントに、そのままの見出しと答えがありました。日本の数字とあわせて、出典付きで説明します。</p>
+    <p class="art-meta">2026年7月17日 ・ LUMEN</p>
+  </div>
+</section>
+
+<main id="main">
+<article class="section">
+  <div class="wrap art-wrap">
+    <p class="art-lead">「これからはAI検索の時代だから、SEOはもう意味がない」——そう言われて、AI検索対策という新しい商品が売られています。<br>ところが<strong>Google自身が、公式ドキュメントで正面から答えていました。</strong>この記事では、その原文と、日本の政府統計を並べます。<strong>数字はすべて一次情報にリンクします。出典を辿れないものは、書きません。</strong></p>
+
+    <h2 class="art-h2">Googleの公式ドキュメントに、その見出しがある</h2>
+    <p>Googleは2026年5月に「生成AI検索向けにサイトを最適化する」という公式ガイドを公開し、<strong>2026年7月10日に更新</strong>しています。その中に、こういう見出しがあります。</p>
+    <blockquote class="art-quote"><strong>Is SEO still relevant for generative AI search?</strong>（生成AI検索において、SEOはまだ重要か？）<br>——<strong>In short, yes!</strong>（端的に言えば、はい）<cite>— <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide?hl=ja" target="_blank" rel="noopener">Google Search Central「Optimizing your website for generative AI features on Google Search」</a></cite></blockquote>
+    <p>理由も同じページに書かれています。Google検索の生成AI機能は、<strong>従来の検索ランキングと品質のシステムの上に作られている</strong>（rooted in our core Search ranking and quality systems）から、というものです。</p>
+    <p>そして、こう続きます。</p>
+    <blockquote class="art-quote">From Google Search's perspective, optimizing for generative AI search is optimizing for the search experience, and <strong>thus still SEO.</strong><br>（Google検索の観点では、生成AI検索への最適化とは検索体験への最適化であり、<strong>つまり依然としてSEOである</strong>）<cite>— <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide?hl=ja" target="_blank" rel="noopener">同上・2026年7月10日更新時点</a></cite></blockquote>
+    <p class="art-source">出典：Google Search Central <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide?hl=ja" target="_blank" rel="noopener">「Google 検索の生成 AI 機能向けにウェブサイトを最適化する」</a>（日本語版）／2026年7月17日に原文確認。ページ下部に「最終更新日 2026-07-10 UTC」の表記あり</p>
+    <div class="art-honest">
+      <p><strong>正直に言うと、これはLUMENにとって都合の悪い事実です。</strong>私たちは「AI検索対策」を掲げてサービスを提供しています。そのGoogleが「それはSEOだ」と言っている。<strong>それでも、書かないという選択肢はありませんでした。</strong>このサイトは「すべての数字に出典をつける」と約束しているからです。</p>
+    </div>
+
+    <h2 class="art-h2">日本では、まだ4人に1人しかAIを使っていない</h2>
+    <p>「みんなもうAIに聞いている」という前提は、日本ではまだ成り立ちません。総務省の白書の数字です。</p>
+    <ul class="art-check">
+      <li>日本で生成AIサービスを使ったことがある人 … <strong>26.7%</strong>（2024年度調査）</li>
+      <li>同じ調査での米国 … <strong>68.8%</strong>／ドイツ <strong>59.2%</strong>／中国 <strong>81.2%</strong></li>
+      <li>日本の20代に限れば … <strong>44.7%</strong></li>
+    </ul>
+    <p class="art-source">出典：総務省 令和7年版 情報通信白書 <a href="https://www.soumu.go.jp/johotsusintokei/whitepaper/ja/r07/html/nd112210.html" target="_blank" rel="noopener">「人間に身近なAI利用の現況」</a>（図表Ⅰ-1-2-7／Ⅰ-1-2-8）／原調査は総務省（2025）の委託調査／2026年7月17日閲覧。※令和7年版が最新で、令和8年版は本記事の公開時点では未公表です</p>
+    <p>増えてはいます。2023年度調査では<strong>9.1%</strong>でしたから、1年で約3倍です。<strong>ただし水準は、米国の約4割にとどまります。</strong>使わない理由として多いのは「必要性がない」、次いで「<strong>使い方がわからない</strong>」でした。</p>
+    <p>つまり日本の中小事業者にとって、いまの現実はこうです。<strong>AI検索は無視できないが、まだ主戦場ではない。</strong>そして主戦場でGoogleが評価するものは、これまでと変わっていません。</p>
+
+    <h2 class="art-h2">「1位のクリック率は◯%」——その数字の出どころを、確かめました</h2>
+    <p>SEOの説明でほぼ必ず出てくるのが「1位のクリック率は◯%、10位は◯%」という表です。<strong>この数字の一次情報を探しましたが、見つかりませんでした。</strong></p>
+    <ul class="art-check">
+      <li><strong>Googleは順位別クリック率を公表していません。</strong></li>
+      <li>欧州委員会が2017年に出した競争法の決定文には順位別クリック率の表がありますが、<strong>その部分は黒塗りで非公開</strong>です。</li>
+      <li>世に流通している数値は、<strong>すべてSEO事業者による独自の実測</strong>です。調査対象も方法も各社で違い、値も一致しません。</li>
+    </ul>
+    <div class="art-box">
+      <p><strong>だからこの記事には、順位別クリック率の数字を書きません。</strong></p>
+      <p>「上位に集中する」という傾向自体は、公的機関の資料でも確認できます。<strong>ただし「1位は◯%」と言い切れる一次情報は、現時点で存在しません。</strong>それを断言している説明を見たら、出典を1回だけ辿ってみてください。ほぼ確実に、どこかの事業者の自社調査に行き着きます。</p>
+    </div>
+
+    <h2 class="art-h2">Googleが「やらなくていい」と名指ししたこと</h2>
+    <p>先ほどの公式ガイドには「<strong>Mythbusting generative AI search: what you don't need to do</strong>（生成AI検索の神話を壊す：やらなくていいこと）」という節があります。名指しされているのは、次のようなものです。</p>
+    <ol class="art-ol art-ol--num">
+      <li><strong>llms.txt などのAI向けファイルを作ること</strong> — 原文は「<em>Google Search itself doesn't use them</em>（Google検索はそれらを使わない）」「<em>Google Search ignores them</em>（Google検索は無視する）」。やっても<strong>害も益もない</strong>と明記されています。</li>
+      <li><strong>本文を細切れ（チャンク）にすること</strong> — 「<em>There's no requirement to break your content into tiny pieces for AI to better understand it</em>」「<em>There's no ideal page length</em>（理想的なページの長さは存在しない）」。</li>
+      <li><strong>AI向けの特別な書き方をすること</strong> — 「<em>You don't need to write in a specific way just for generative AI search.</em>」</li>
+      <li><strong>不自然な「言及」を集めること</strong> — 「<em>seeking inauthentic 'mentions' across the web isn't as helpful as it might seem.</em>」</li>
+    </ol>
+    <p>そして、こう書かれています。</p>
+    <blockquote class="art-quote"><strong>Be wary of third-party tools that promise ranking success or claim to use "internal" Google metrics. No third-party tool has access to our internal ranking or AI systems.</strong><br>（順位の成功を約束したり、Googleの「内部」指標を使っていると謳う第三者ツールには注意してください。<strong>どの第三者ツールも、Googleの内部のランキングやAIのシステムにアクセスできません</strong>）<cite>— <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide?hl=ja" target="_blank" rel="noopener">Google Search Central・同ガイド</a></cite></blockquote>
+    <div class="art-honest">
+      <p><strong>これもLUMENに向けられた警告として読むべき一文です。</strong>私たちは自社ツールでサイトを採点して、その点数をお見せしています。だから最初に明言しておきます。<strong>あの点数は当社の内部指標であって、Googleの順位でもAIの引用率でもありません。</strong>Googleの内部システムには、当社も、どの会社もアクセスできません。点数が上がることと、順位が上がることは、別の話です。</p>
+    </div>
+
+    <h2 class="art-h2">では、Googleは何を評価すると言っているのか</h2>
+    <p>同じGoogleの公式ドキュメントに、答えは書いてあります。派手ではありません。</p>
+    <blockquote class="art-quote">...they identify a mix of factors that can help determine which content demonstrates aspects of experience, expertise, authoritativeness, and trustworthiness, or what we call E-E-A-T. <strong>Of these aspects, trust is most important.</strong><br>（経験・専門性・権威性・信頼性＝E-E-A-T のうち、<strong>信頼性が最も重要である</strong>）<cite>— <a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" target="_blank" rel="noopener">Google Search Central「Creating helpful, reliable, people-first content」</a></cite></blockquote>
+    <p>同じページには、こうもあります。</p>
+    <blockquote class="art-quote"><strong>SEO can be a helpful activity when it is applied to people-first content</strong>, rather than search engine-first content.<br>（SEOは、検索エンジン優先のコンテンツではなく、<strong>人を優先したコンテンツに対して適用されたとき</strong>に、有益な活動になり得る）<cite>— <a href="https://developers.google.com/search/docs/fundamentals/creating-helpful-content" target="_blank" rel="noopener">同上</a></cite></blockquote>
+    <p>要するに、AI検索の時代になっても評価の軸は動いていません。<strong>誰が書いたのかがわかること。実際に役に立つこと。機械が読める形で置いてあること。</strong>この3つです。魔法はどこにもありません。</p>
+
+    <h2 class="art-h2">このサイトで、実演しています</h2>
+    <div class="art-honest">
+      <p>いま読んでいるこのページも、上に書いたとおりに作ってあります。<strong>ブラウザの「ページのソースを表示」で、構造化データの中身を実際に見られます。</strong></p>
+      <p>そしてLUMENのトップページには、<strong>このサイト自身をスキャンした実測スコア</strong>を載せています。サンプル画像ではありません。<strong>まだ改善点が残っていることも、そのまま出しています。</strong></p>
+      <p><a href="index.html#analytics" class="art-link">→ 実測スコアを見る</a>　<a href="insight-aeo.html" class="art-link">→ 次の記事：AIは、あなたのサイトの何を読んでいるのか</a></p>
+    </div>
+
+  </div>
+</article>
+
+<section class="faq-section section">
+  <div class="wrap faq-wrap">
+    <header class="sec-head"><p class="sec-label reveal">FAQ</p><h2 class="sec-title reveal">この記事に関する、<em>よくある質問。</em></h2></header>
+    <div class="faq-list">
+        <div class="faq-item reveal"><button class="faq-btn"><h3 class="faq-q">AI検索が広まったら、SEOは意味がなくなりますか？</h3><span class="faq-icon"><span></span><span></span></span></button><div class="faq-ans"><p>Googleは公式ドキュメントで「Is SEO still relevant for generative AI search?（生成AI検索においてSEOはまだ重要か）」という見出しを立て、「In short, yes!（端的に言えば、はい）」と答えています。理由も明記されていて、Google検索の生成AI機能が、従来の検索ランキングと品質のシステムを土台にしているからです。つまりAI検索対策とSEOは、Googleにとって別のものではありません。</p></div></div>
+        <div class="faq-item reveal"><button class="faq-btn"><h3 class="faq-q">検索順位が1位だとクリック率は何%、10位だと何%ですか？</h3><span class="faq-icon"><span></span><span></span></span></button><div class="faq-ans"><p>その数字の一次情報は、私たちが探した範囲では見つかりませんでした。Googleは順位別のクリック率を公表していません。よく引用される数値はすべてSEO事業者による独自の実測で、調査方法も対象も各社バラバラです。欧州委員会の2017年の決定文には順位別クリック率の表がありますが、その部分は黒塗りで非公開です。当社は、出典を辿れない数字は使いません。</p></div></div>
+        <div class="faq-item reveal"><button class="faq-btn"><h3 class="faq-q">日本でも、みんなもうAIに聞いているのではないですか？</h3><span class="faq-icon"><span></span><span></span></span></button><div class="faq-ans"><p>総務省の令和7年版情報通信白書によると、日本で生成AIサービスを使ったことがある人の割合は2024年度調査で26.7%です。同じ調査で米国は68.8%、中国は81.2%でした。日本の利用率は増えてはいますが（2023年度は9.1%）、米国の約4割の水準です。「もう全員がAIに聞いている」という前提で施策を組むのは、少なくとも今の日本では早すぎます。</p></div></div>
+        <div class="faq-item reveal"><button class="faq-btn"><h3 class="faq-q">結局、何から手をつければいいですか？</h3><span class="faq-icon"><span></span><span></span></span></button><div class="faq-ans"><p>Googleが公式に挙げているのは、人のために作られた独自性のあるコンテンツ、良いページ体験、クローラーがコンテンツにアクセスできること、構造化データと表示内容の一致、といった基礎です。派手さはありません。逆にGoogleが「やらなくていい」と名指ししているのは、コンテンツの細切れ化、llms.txtのようなAI向けファイルの作成、不自然な言及集めです。まず基礎から順に埋めるのが最短です。</p></div></div>
+        </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="wrap">
+    <h2 class="cta-h2 reveal">いまのサイトが<em>どの状態にあるか、</em>無料で測れます。</h2>
+    <p class="cta-sub reveal">URLを入れるだけ。点数はその場で出ます。<br>当社の内部指標であって、Googleの順位そのものではありません。そこも正直に書いています。</p>
+    <div class="cta-actions reveal">
+      <a href="index.html#analytics" class="btn btn-primary">無料でサイトを診断する</a>
+      <a href="insights.html" class="btn btn-ghost">ほかの記事を読む</a>
+    </div>
+    <p class="cta-note reveal">初期費用0円 · 12ヶ月後に所有権譲渡 · しつこい営業なし</p>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-top wrap">
+    <div class="footer-brand"><p class="footer-logo"><img src="img/logo.webp" alt="LUMEN" width="160" height="40" class="footer-logo-img" /></p><p class="footer-tagline">AI時代のWeb集客パートナー</p><p class="footer-def">LUMENは日本全国の中小事業者と個人事業主を支援するWebサイト制作事業者です。HP・LP制作、AI検索対策（AEO・GEO）、MEO対策、公式LINE構築までを初期費用0円・月額制で提供します。</p><div class="footer-avail"><span class="avail-dot"></span>ご相談受付中</div></div>
+    <div class="footer-cols">
+      <div class="footer-col"><p class="fc-title">サービス</p><ul><li><a href="lp.html">LP制作</a></li><li><a href="hp.html">HP制作</a></li><li><a href="options.html">オプション</a></li><li><a href="pricing.html">料金プラン</a></li><li><a href="pricing.html#comparison">他社との比較</a></li></ul></div>
+      <div class="footer-col"><p class="fc-title">コンテンツ</p><ul><li><a href="gallery.html">制作イメージ</a></li><li><a href="works.html">動く演出</a></li><li><a href="insights.html">読みもの</a></li><li><a href="about.html">会社について</a></li><li><a href="flow.html">制作の流れ</a></li><li><a href="faq.html">よくある質問</a></li></ul></div>
+      <div class="footer-col"><p class="fc-title">お問い合わせ</p><ul><li><a href="contact.html">無料相談を予約する</a></li><li><a href="index.html#analytics">無料サイト診断</a></li><li><a href="https://line.me/R/ti/p/@794iqonk" target="_blank" rel="noopener">公式LINEで相談する</a></li></ul><a href="contact.html" class="btn btn-primary footer-cta-btn">無料相談</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom wrap"><p>© 2026 LUMEN All rights reserved.</p><nav class="footer-bottom-nav"><a href="privacy.html">プライバシーポリシー</a><a href="law.html">特定商取引法</a></nav></div>
+</footer>
+<a href="#top" id="page-top">↑</a>
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

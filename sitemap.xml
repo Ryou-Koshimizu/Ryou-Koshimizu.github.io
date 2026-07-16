@@ -20,5 +20,7 @@
   <url><loc>https://ryou-koshimizu.github.io/insights.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://ryou-koshimizu.github.io/insight-erabikata.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://ryou-koshimizu.github.io/insight-ai-search.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/insight-seo.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://ryou-koshimizu.github.io/insight-aeo.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://ryou-koshimizu.github.io/insight-0yen.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

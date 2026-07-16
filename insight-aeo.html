@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="SEOをやればChatGPTにも出る、とは限りません。ChatGPTとPerplexityは、Googleとは別の自前のクローラーで直接サイトを見に来ているからです。3社の公式ドキュメントを読み比べて、Googleの順位では代替できない部分と、そこで実際にやるべきことを整理しました。">
+  <meta name="author" content="LUMEN">
+  <title>ChatGPTは、Googleとは別のドアから来ます｜LUMEN</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>document.documentElement.classList.add('js');addEventListener('DOMContentLoaded',function(){setTimeout(function(){if(!window.gsap)document.documentElement.classList.add('no-gsap');},1200);});</script>
+  <noscript><style>.reveal{opacity:1!important;transform:none!important}body,a,.btn,button{cursor:auto!important}</style></noscript>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="img/favicon-32.png" sizes="32x32" type="image/png">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#07080B">
+  <script defer src="js/analytics.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="LUMEN">
+  <meta property="og:title" content="ChatGPTは、Googleとは別のドアから来ます｜LUMEN">
+  <meta property="og:description" content="ChatGPTとPerplexityは、Googleとは別の自前のクローラーで直接サイトを見に来ています。Googleの順位では代替できない部分と、そこでやるべきことを、3社の公式ドキュメントから整理しました。">
+  <meta property="og:url" content="https://ryou-koshimizu.github.io/insight-aeo.html">
+  <meta property="og:image" content="https://ryou-koshimizu.github.io/ogp.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://ryou-koshimizu.github.io/insight-aeo.html">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "ChatGPTは、Googleとは別のドアから来ます",
+  "description": "SEOをやればChatGPTにも出る、とは限りません。ChatGPTとPerplexityは、Googleとは別の自前のクローラーで直接サイトを見に来ているからです。3社の公式ドキュメントを読み比べて、Googleの順位では代替できない部分と、そこで実際にやるべきことを整理しました。",
+  "url": "https://ryou-koshimizu.github.io/insight-aeo.html",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://ryou-koshimizu.github.io/insight-aeo.html" },
+  "author": { "@type": "Organization", "name": "LUMEN", "url": "https://ryou-koshimizu.github.io/" },
+  "publisher": {
+    "@type": "Organization", "name": "LUMEN",
+    "logo": { "@type": "ImageObject", "url": "https://ryou-koshimizu.github.io/img/logo.webp" }
+  },
+  "datePublished": "2026-07-17",
+  "dateModified": "2026-07-17",
+  "inLanguage": "ja"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://ryou-koshimizu.github.io/" },
+    { "@type": "ListItem", "position": 2, "name": "読みもの", "item": "https://ryou-koshimizu.github.io/insights.html" },
+    { "@type": "ListItem", "position": 3, "name": "ChatGPTは、Googleとは別のドアから来ます", "item": "https://ryou-koshimizu.github.io/insight-aeo.html" }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "SEOをやっておけば、ChatGPTにも出るようになりますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "なりません。GoogleのAI（Gemini）はGoogle検索の索引を見ていますが、ChatGPTとPerplexityは自前のクローラーで直接サイトを見に来ています。OpenAIは「OAI-SearchBot は ChatGPT の検索機能でサイトを検索結果に表示するためのもの」、Perplexityは「PerplexityBot は Perplexity の検索結果でサイトを表示しリンクするためのもの」と、それぞれ公式に説明しています。つまり別の入口です。Googleでの順位が何位でも、そのクローラーを塞いでいればChatGPTには出ません。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "GPTBot を robots.txt で塞ぐと、ChatGPTに出なくなりますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "いいえ、別のボットです。OpenAIの公式ドキュメントによると、GPTBot は「生成AIの基盤モデルの学習に使われる可能性のあるコンテンツをクロールするため」のもので、ChatGPTの検索結果に出すためのボットは OAI-SearchBot です。したがって「AIの学習には使われたくないが、ChatGPTの検索には出たい」という場合は、GPTBot だけを拒否し、OAI-SearchBot は許可する、という設定になります。この2つを混同して両方塞いでしまうと、意図せずChatGPTから見えなくなります。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "ChatGPTやPerplexityに出るために、特別なファイルやマークアップは必要ですか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "各社の公開しているクローラーのドキュメントには、llms.txt や構造化データ（schema.org）への言及がありません。OpenAIとPerplexityが公式に案内しているのは、それぞれのクローラーを robots.txt で許可し、公開しているIPレンジからのリクエストを通すことです。Googleに至っては「llms.txtは無視する」「生成AI検索に構造化データは必須ではない」と明記しています。つまり公式に裏付けのある対策は、特別なファイルを置くことではなく、クローラーが本文に到達できる状態にすることです。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "対策をすれば、必ずAIの回答に載りますか？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "載りません。Googleは公式に「Indexing and serving isn't guaranteed.（索引と配信は保証されません）」と明記しています。AI Overviews自体も「従来の検索に対して付加価値があるとシステムが判断したときにのみ表示され、多くの場合は表示されない」と書かれています。できるのは、読み取れる状態にして、引用に値する中身を置くところまでです。「必ず載る」と約束する業者がいたら、その根拠を確認してください。"
+      }
+    }
+  ]
+}
+  </script>
+</head>
+<body>
+<a href="#main" class="skip-link">本文へスキップ</a>
+<div id="cursor"><div id="cursor-ring"></div><div id="cursor-dot"></div></div>
+<div id="progress-bar"></div>
+<header id="header">
+  <nav class="nav-inner wrap">
+    <a href="index.html" class="logo"><img src="img/logo.webp" alt="LUMEN" width="160" height="40" class="logo-img" /></a>
+        <div class="nav-right">
+      <a href="contact.html" class="nav-cta">無料相談</a>
+      <button class="hamburger" id="hamburger" aria-label="メニューを開く" aria-expanded="false"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+</header>
+<div class="nav-overlay" id="navOverlay" aria-hidden="true">
+  <div class="nav-overlay__inner wrap">
+    <div class="nav-ov-col">
+      <div class="nav-ov-cat">Service</div>
+      <ul class="nav-ov-list">
+        <li><a href="services.html">サービス一覧</a></li>
+        <li><a href="lp.html">LP制作</a></li>
+        <li><a href="hp.html">HP制作</a></li>
+        <li><a href="options.html">オプション</a></li>
+        <li><a href="pricing.html">料金プラン</a></li><li><a href="pricing.html#comparison">他社との比較</a></li>
+      </ul>
+    </div>
+    <div class="nav-ov-col">
+      <div class="nav-ov-cat">Samples</div>
+      <ul class="nav-ov-list">
+        <li><a href="gallery.html">制作イメージ</a></li>
+        <li><a href="works.html">動く演出</a></li>
+      </ul>
+      <div class="nav-ov-cat" style="margin-top:34px">Company</div>
+      <ul class="nav-ov-list">
+        <li><a href="insights.html">読みもの</a></li>
+        <li><a href="about.html">会社について</a></li>
+        <li><a href="flow.html">制作の流れ</a></li>
+        <li><a href="faq.html">よくある質問</a></li>
+      </ul>
+    </div>
+    <div class="nav-ov-col">
+      <div class="nav-ov-cat">Contact</div>
+      <ul class="nav-ov-list">
+        <li><a href="contact.html">無料相談を予約する</a></li><li><a href="index.html#analytics">無料サイト診断</a></li>
+        <li><a href="privacy.html">プライバシーポリシー</a></li>
+        <li><a href="law.html">特定商取引法</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+<section class="page-hero">
+  <div class="wrap">
+    <nav class="breadcrumb"><a href="index.html">Home</a><span>/</span><a href="insights.html">読みもの</a><span>/</span><span>ChatGPTは別のドアから来る</span></nav>
+    <div class="ph-label">INSIGHTS</div>
+    <h1 class="ph-h1">ChatGPTは、<br><em>Googleとは別のドアから来ます</em></h1>
+    <p class="ph-sub">「SEOをやっておけばAIにも出る」——Googleについては、その通りです。<strong style="color:var(--ink)">ChatGPTとPerplexityについては、違います。</strong>3社の公式ドキュメントを読み比べると、その理由がはっきり書いてありました。</p>
+    <p class="art-meta">2026年7月17日 ・ LUMEN</p>
+  </div>
+</section>
+
+<main id="main">
+<article class="section">
+  <div class="wrap art-wrap">
+    <p class="art-lead">別の記事で、<strong>GoogleのAIに紹介されたければSEOをやればいい</strong>と書きました。Google自身がそう言っているからです。<br>ただし、その話が通じるのは<strong>Googleだけ</strong>でした。<strong>ChatGPTとPerplexityは、自前のロボットで、あなたのサイトを直接見に来ています。</strong>ここはGoogleでの順位では、どうやっても代われません。</p>
+
+    <h2 class="art-h2">違いは「自分の検索エンジンを持っているかどうか」</h2>
+    <p>3社の公式ドキュメントを並べると、構造が見えてきます。</p>
+    <div class="art-box">
+      <p><strong>Gemini（Google検索のAI）</strong><br>
+      見ているのは<strong>Google検索の索引そのもの</strong>。Googleは公式に、生成AI機能は「従来の検索ランキングと品質のシステムを土台にしている」と説明しています。<br>
+      → <strong>だからSEOがそのまま効きます。</strong></p>
+      <p><strong>ChatGPT</strong><br>
+      <strong>自前のロボット（OAI-SearchBot）で見に来ます。</strong>OpenAIの説明はこうです —「<em>used to surface websites in search results in ChatGPT's search features</em>（ChatGPTの検索機能で、サイトを検索結果に表示するために使われる）」。<br>
+      → <strong>Googleの索引を経由していません。</strong></p>
+      <p><strong>Perplexity</strong><br>
+      同じく<strong>自前のロボット（PerplexityBot）</strong>。「<em>designed to surface and link websites in search results on Perplexity. It is not used to crawl content for AI foundation models.</em>（Perplexityの検索結果でサイトを表示しリンクするためのもの。AI基盤モデルの学習用ではない）」。<br>
+      → <strong>こちらもGoogleとは無関係です。</strong></p>
+    </div>
+    <p class="art-source">出典：<a href="https://developers.openai.com/api/docs/bots" target="_blank" rel="noopener">OpenAI「Crawlers」</a>／<a href="https://docs.perplexity.ai/guides/bots" target="_blank" rel="noopener">Perplexity「Perplexity Crawlers」</a>／<a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide?hl=ja" target="_blank" rel="noopener">Google Search Central「Google 検索の生成 AI 機能向けにウェブサイトを最適化する」</a>（いずれも2026年7月17日に原文確認）</p>
+
+    <h2 class="art-h2">つまり、SEOが100点でもChatGPTに出ないことがある</h2>
+    <p>ここが実務上いちばん重要です。<strong>ChatGPTのロボットを入口で塞いでいたら、Googleでの順位が何位だろうと、ChatGPTからは存在しないのと同じ</strong>になります。索引が別だからです。</p>
+    <p>そして厄介なのは、<strong>塞いでいる自覚がないケースが多い</strong>ことです。</p>
+    <ul class="art-check">
+      <li>サイトのテーマやプラグインが、<strong>既定でAIのロボットを拒否している</strong></li>
+      <li>セキュリティサービスやCDNが、<strong>知らないうちにブロックしている</strong></li>
+      <li>過去に「AIに学習されたくない」と設定して、<strong>検索用のロボットまで一緒に塞いでいる</strong></li>
+    </ul>
+    <p>3つ目が、次の話です。</p>
+
+    <h2 class="art-h2">「学習用」と「検索用」は、別のロボットです</h2>
+    <p>ここは誤解が多いので、原文で確認しておきます。OpenAIは<strong>3種類</strong>を使い分けています。</p>
+    <ol class="art-ol art-ol--num">
+      <li><strong>GPTBot</strong> —「<em>used to crawl content that may be used in training our generative AI foundation models</em>」＝<strong>AIの学習</strong>のためのクロール</li>
+      <li><strong>OAI-SearchBot</strong> —「<em>used to surface websites in search results in ChatGPT's search features</em>」＝<strong>ChatGPTの検索結果に出す</strong>ためのもの</li>
+      <li><strong>ChatGPT-User</strong> —「<em>used for certain user actions in ChatGPT</em>」＝<strong>ユーザーが質問したとき</strong>にページを見に行くもの</li>
+    </ol>
+    <div class="art-honest">
+      <p><strong>だから「GPTBotを塞ぐとChatGPTに出なくなる」は、正確ではありません。</strong></p>
+      <p>GPTBotを塞ぐと、<strong>AIの学習には使われなくなります</strong>。ChatGPTの検索結果に出るかどうかを決めているのは、<strong>OAI-SearchBot</strong> の方です。<br>
+      つまり<strong>「学習には使われたくない。でもChatGPTの検索には出たい」という設定は、両立できます。</strong>GPTBotだけ拒否して、OAI-SearchBotは通せばいい。<br>
+      逆に、この2つを混同して両方まとめて塞いでしまうと、<strong>意図しないままChatGPTから消えます。</strong>ここは実際によく起きています。</p>
+    </div>
+    <p class="art-source">出典：<a href="https://developers.openai.com/api/docs/bots" target="_blank" rel="noopener">OpenAI「Crawlers」</a>／2026年7月17日に原文確認</p>
+
+    <h2 class="art-h2">では、公式に裏付けのある対策は何か</h2>
+    <p>ここが、この記事でいちばんお伝えしたいところです。<strong>OpenAIとPerplexityが、サイト運営者向けに公式に案内していることは、驚くほど少ない。</strong></p>
+    <div class="art-box">
+      <p><strong>両社が公式に書いているのは、これだけです。</strong></p>
+      <p>それぞれのロボットを <strong>robots.txt で許可する</strong>こと。そして各社が公開しているIPレンジからのリクエストを通すこと。</p>
+      <p><strong>llms.txt への言及は、両社のクローラー文書にありません。構造化データ（schema.org）への言及も、ありません。</strong></p>
+    </div>
+    <p>Googleに至っては、もっと踏み込んで書いています。<strong>「llms.txt は無視する」「生成AI検索に構造化データは必須ではない」</strong>と明記されています。</p>
+    <blockquote class="art-quote">Structured data isn't required for generative AI search, and there's no special schema.org markup you need to add.<br>（生成AI検索に構造化データは必須ではなく、追加すべき特別なマークアップも存在しない）<cite>— <a href="https://developers.google.com/search/docs/fundamentals/ai-optimization-guide?hl=ja" target="_blank" rel="noopener">Google Search Central・2026-07-10更新</a></cite></blockquote>
+    <div class="art-honest">
+      <p><strong>これは当社にとって、都合の悪い一文です。</strong>構造化データの実装は、当社のサービスの一つだからです。だから正確に線を引きます。</p>
+      <p><strong>当社は、構造化データを「AI検索対策」として売りません。</strong>Googleが公式に「AIには不要」と書いている以上、それを理由に請求するのは筋が通らないからです。<br>
+      構造化データをやる理由は別にあります。<strong>検索結果でリッチリザルト（よくある質問の展開表示など）の対象になり得ること、そしてページの意味を機械に正しく伝えること。</strong>Googleはこちらの用途については、公式に推奨しています。<strong>やる価値はある。ただし理由を偽らない。</strong>それが当社の立ち位置です。</p>
+    </div>
+
+    <h2 class="art-h2">LUMENが「やること」と「やらないこと」</h2>
+    <h3 class="art-h3">やること（各社の公式に根拠があるもの）</h3>
+    <ol class="art-ol art-ol--num">
+      <li><strong>AIのロボットが通れるか、実際に確認する。</strong>OpenAI・Perplexity両社が公式に案内している、唯一の対策です。</li>
+      <li><strong>学習用と検索用を、意図どおりに分けて設定する。</strong>「学習は断る／検索には出る」を選べる状態にします。</li>
+      <li><strong>本文が、機械に読める形で置かれているか確認する。</strong>表示までに真っ白なページは、ロボットに何も渡していない可能性があります。</li>
+      <li><strong>質問と答えの形で書く。</strong>AIが引用しやすい形式です。</li>
+    </ol>
+    <h3 class="art-h3">やらないこと（公式に効果がないと書かれているもの）</h3>
+    <ul class="art-check">
+      <li><strong>llms.txt の設置</strong>（Googleは「無視する」と明記／OpenAI・Perplexityの文書には言及なし）</li>
+      <li><strong>構造化データを「AI対策」として売ること</strong>（Googleが「AIには不要」と明記。リッチリザルト目的なら、そう説明します）</li>
+      <li><strong>本文の細切れ化・AI向けの特殊な書き方</strong>（Googleが公式に否定）</li>
+      <li><strong>「必ずAIに載る」という約束</strong>（次の項目）</li>
+    </ul>
+
+    <h2 class="art-h2">保証しない理由を、書いておきます</h2>
+    <blockquote class="art-quote">Just because a page meets all requirements, best practices, and complies with the policies, doesn't mean that Google will crawl, index, or serve its content. <strong>Indexing and serving isn't guaranteed.</strong><br>（要件・ベストプラクティス・ポリシーをすべて満たしていても、Googleがクロール・索引・配信するとは限りません。<strong>索引と配信は保証されません</strong>）<cite>— <a href="https://developers.google.com/search/docs/appearance/ai-features?hl=ja" target="_blank" rel="noopener">Google Search Central「AI features and your website」</a></cite></blockquote>
+    <p><strong>Google自身が保証しないと明記しているものを、代理店が保証できるはずがありません。</strong>できるのは、読み取れる状態にして、引用に値する中身を置くところまで。それ以上を約束する提案を見たら、<strong>根拠を1回聞いてみてください。</strong></p>
+
+    <h2 class="art-h2">このサイトで、実演しています</h2>
+    <div class="art-honest">
+      <p>いま読んでいるこのページも、上に書いたとおりに作ってあります。<strong>ブラウザの「ページのソースを表示」で、構造化データの中身を実際に見られます。</strong>（AI検索のためではなく、リッチリザルトと、機械に意味を正しく伝えるためです。）</p>
+      <p>そして無料診断では、<strong>AIのロボットを塞いでいないか、本文が機械に読める形で置かれているか</strong>を実際に測れます。</p>
+      <p><a href="index.html#analytics" class="art-link">→ 無料でサイトを診断する</a>　<a href="insight-seo.html" class="art-link">→ 前の記事：AI検索の時代に、なぜまだSEOが要るのか</a></p>
+    </div>
+
+  </div>
+</article>
+
+<section class="faq-section section">
+  <div class="wrap faq-wrap">
+    <header class="sec-head"><p class="sec-label reveal">FAQ</p><h2 class="sec-title reveal">この記事に関する、<em>よくある質問。</em></h2></header>
+    <div class="faq-list">
+        <div class="faq-item reveal"><button class="faq-btn"><h3 class="faq-q">SEOをやっておけば、ChatGPTにも出るようになりますか？</h3><span class="faq-icon"><span></span><span></span></span></button><div class="faq-ans"><p>なりません。GoogleのAI（Gemini）はGoogle検索の索引を見ていますが、ChatGPTとPerplexityは自前のクローラーで直接サイトを見に来ています。OpenAIは「OAI-SearchBot は ChatGPT の検索機能でサイトを検索結果に表示するためのもの」、Perplexityは「PerplexityBot は Perplexity の検索結果でサイトを表示しリンクするためのもの」と、それぞれ公式に説明しています。つまり別の入口です。Googleでの順位が何位でも、そのクローラーを塞いでいればChatGPTには出ません。</p></div></div>
+        <div class="faq-item reveal"><button class="faq-btn"><h3 class="faq-q">GPTBot を robots.txt で塞ぐと、ChatGPTに出なくなりますか？</h3><span class="faq-icon"><span></span><span></span></span></button><div class="faq-ans"><p>いいえ、別のボットです。OpenAIの公式ドキュメントによると、GPTBot は「生成AIの基盤モデルの学習に使われる可能性のあるコンテンツをクロールするため」のもので、ChatGPTの検索結果に出すためのボットは OAI-SearchBot です。したがって「AIの学習には使われたくないが、ChatGPTの検索には出たい」という場合は、GPTBot だけを拒否し、OAI-SearchBot は許可する、という設定になります。この2つを混同して両方塞いでしまうと、意図せずChatGPTから見えなくなります。</p></div></div>
+        <div class="faq-item reveal"><button class="faq-btn"><h3 class="faq-q">ChatGPTやPerplexityに出るために、特別なファイルやマークアップは必要ですか？</h3><span class="faq-icon"><span></span><span></span></span></button><div class="faq-ans"><p>各社の公開しているクローラーのドキュメントには、llms.txt や構造化データ（schema.org）への言及がありません。OpenAIとPerplexityが公式に案内しているのは、それぞれのクローラーを robots.txt で許可し、公開しているIPレンジからのリクエストを通すことです。Googleに至っては「llms.txtは無視する」「生成AI検索に構造化データは必須ではない」と明記しています。つまり公式に裏付けのある対策は、特別なファイルを置くことではなく、クローラーが本文に到達できる状態にすることです。</p></div></div>
+        <div class="faq-item reveal"><button class="faq-btn"><h3 class="faq-q">対策をすれば、必ずAIの回答に載りますか？</h3><span class="faq-icon"><span></span><span></span></span></button><div class="faq-ans"><p>載りません。Googleは公式に「Indexing and serving isn't guaranteed.（索引と配信は保証されません）」と明記しています。AI Overviews自体も「従来の検索に対して付加価値があるとシステムが判断したときにのみ表示され、多くの場合は表示されない」と書かれています。できるのは、読み取れる状態にして、引用に値する中身を置くところまでです。「必ず載る」と約束する業者がいたら、その根拠を確認してください。</p></div></div>
+        </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="wrap">
+    <h2 class="cta-h2 reveal">AIのロボットを<em>塞いでいないかは、</em>無料で測れます。</h2>
+    <p class="cta-sub reveal">URLを入れるだけ。学習用と検索用のどちらを拒否しているかまで見ます。<br>点数は当社の内部指標であって、AIの引用率そのものではありません。</p>
+    <div class="cta-actions reveal">
+      <a href="index.html#analytics" class="btn btn-primary">無料でサイトを診断する</a>
+      <a href="insights.html" class="btn btn-ghost">ほかの記事を読む</a>
+    </div>
+    <p class="cta-note reveal">初期費用0円 · 12ヶ月後に所有権譲渡 · しつこい営業なし</p>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-top wrap">
+    <div class="footer-brand"><p class="footer-logo"><img src="img/logo.webp" alt="LUMEN" width="160" height="40" class="footer-logo-img" /></p><p class="footer-tagline">AI時代のWeb集客パートナー</p><p class="footer-def">LUMENは日本全国の中小事業者と個人事業主を支援するWebサイト制作事業者です。HP・LP制作、AI検索対策（AEO・GEO）、MEO対策、公式LINE構築までを初期費用0円・月額制で提供します。</p><div class="footer-avail"><span class="avail-dot"></span>ご相談受付中</div></div>
+    <div class="footer-cols">
+      <div class="footer-col"><p class="fc-title">サービス</p><ul><li><a href="lp.html">LP制作</a></li><li><a href="hp.html">HP制作</a></li><li><a href="options.html">オプション</a></li><li><a href="pricing.html">料金プラン</a></li><li><a href="pricing.html#comparison">他社との比較</a></li></ul></div>
+      <div class="footer-col"><p class="fc-title">コンテンツ</p><ul><li><a href="gallery.html">制作イメージ</a></li><li><a href="works.html">動く演出</a></li><li><a href="insights.html">読みもの</a></li><li><a href="about.html">会社について</a></li><li><a href="flow.html">制作の流れ</a></li><li><a href="faq.html">よくある質問</a></li></ul></div>
+      <div class="footer-col"><p class="fc-title">お問い合わせ</p><ul><li><a href="contact.html">無料相談を予約する</a></li><li><a href="index.html#analytics">無料サイト診断</a></li><li><a href="https://line.me/R/ti/p/@794iqonk" target="_blank" rel="noopener">公式LINEで相談する</a></li></ul><a href="contact.html" class="btn btn-primary footer-cta-btn">無料相談</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom wrap"><p>© 2026 LUMEN All rights reserved.</p><nav class="footer-bottom-nav"><a href="privacy.html">プライバシーポリシー</a><a href="law.html">特定商取引法</a></nav></div>
+</footer>
+<a href="#top" id="page-top">↑</a>
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
