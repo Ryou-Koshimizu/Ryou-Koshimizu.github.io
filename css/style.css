@@ -2621,3 +2621,92 @@ a.work-card { text-decoration: none; color: inherit; display: block; }
   .art-lead, .art-honest, .art-box { padding: 20px 18px; }
   .art-answer { padding: 16px 16px; gap: 12px; }
 }
+
+/* ============================================================
+   ARTICLE FX — 読み物専用（js/article-fx.js が制御）
+   JS が動かないときは何も起きない＝素のまま読める、を保つ。
+   .ch は JS が生成するので、初期状態（opacity:0 等）を CSS に書かない。
+   書くと no-gsap 時に見出しが消える。
+============================================================ */
+.ph-h1 .ch { display: inline-block; will-change: transform, opacity, filter; }
+
+/* h2 の罫線をアクセント色で左から引く。
+   ::after は GSAP から直接触れないので、--rule 経由で動かす */
+.art-h2 { position: relative; --rule: 0; }
+[data-fx="on"] .art-h2::after {
+  content: ''; position: absolute; left: 0; bottom: -1px;
+  width: 100%; height: 1px; background: var(--accent);
+  transform: scaleX(var(--rule)); transform-origin: left center;
+}
+
+/* 見せ場A: 一問一答。ピン中の見た目を作る */
+[data-fx="on"] .art-quote.is-scene { min-height: 46vh; display: flex; flex-direction: column; justify-content: center; }
+[data-fx="on"] .art-quote.is-scene strong { display: inline-block; }
+/* .qa-line は js/article-fx.js の sceneQuote() が実行時に生成する行ラッパー
+   （問いの行 / 答えの行を丸ごと1単位でアニメーションさせるため）。
+   transform(scale/y) を安定させるため inline-block にしておく。 */
+[data-fx="on"] .art-quote.is-scene .qa-line { display: inline-block; }
+
+/* 見せ場B: 国際比較の棒グラフ（js/article-fx.js の sceneChart() が実行時に生成・aria-hidden）。
+   .fx-* は GSAP 確認後にしか生成されないため、[data-fx="on"] 無しにこの初期状態(scaleX(0))は
+   絶対に効かない＝no-gsap/reduced 環境で内容が消えることはない（.ch と同じ安全条件）。
+   色は dataviz スキルの「Emphasis（1つだけ強調、他はグレーにする）」パターン。
+   日本(is-accent)だけ --accent、他国は --dim。日本の20代は is-accent-faded（--accent を
+   opacity .45 で薄める＝rgba(59,130,246,.45) と同じ見た目だが、hexを新規に持ち込まず
+   CSS変数だけで表現する）。 */
+[data-fx="on"] .fx-chart { margin: 0 0 26px; display: grid; gap: 14px; }
+[data-fx="on"] .fx-row { display: grid; grid-template-columns: 7em 1fr 4.5em; gap: 12px; align-items: center; }
+[data-fx="on"] .fx-name { font-size: .84rem; color: var(--muted); }
+[data-fx="on"] .fx-track { display: block; height: 10px; background: var(--bg2); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+/* バーの伸長は左端(baseline)を起点に scaleX で行うため、角丸は先端(右)だけに付け、
+   baseline側(左)は角ばらせる（dataviz: 4px rounded data-end, square at the baseline）。
+   .fx-bar は <span>（既定 display:inline）なので、明示的に display:block を与えないと
+   width/height/transform:scaleX() が丸ごと無視され、棒が幅0で消える（実機QAで検出・修正）。
+   .fx-track は .fx-row(display:grid) の直接の子なので自動的にブロック化されるが、
+   .fx-bar はその孫であり自動ブロック化の対象外のため、ここでは明示が必須。 */
+[data-fx="on"] .fx-bar {
+  display: block; height: 100%; border-radius: 0 6px 6px 0; transform: scaleX(0); transform-origin: left center;
+  background: var(--dim);
+}
+[data-fx="on"] .fx-bar.is-accent { background: var(--accent); }
+[data-fx="on"] .fx-bar.is-accent-faded { background: var(--accent); opacity: .45; }
+[data-fx="on"] .fx-val { font-size: .84rem; font-weight: 700; color: var(--ink); text-align: right; font-variant-numeric: tabular-nums; }
+@media (max-width: 640px) {
+  [data-fx="on"] .fx-row { grid-template-columns: 5.5em 1fr 4em; gap: 8px; }
+  [data-fx="on"] .fx-name { font-size: .76rem; }
+}
+
+/* 見せ場C: やること（積み上がる） / やらないこと（打ち消される）。
+   .fx-contrast は js/article-fx.js の sceneContrast() が実行時に生成する wrapper
+   （doH3 単体を pin すると doH3 だけが固定され、他の3要素は兄弟のため素通りする
+   ことが実機スクショで判明したため、4要素をまとめて包んで trigger/pin にしている）。
+   打ち消し線は擬似要素を CSS 変数で伸ばす（GSAPは擬似要素を直接触れない）。
+   .fx-strike は各 li ではなく、li 内の <strong>（施策名）に付く。
+   li は「施策名 — Googleの引用文」の2行構成なので li に付けると
+   top:50% が行間を通ってしまう。strong は1行に収まるため中央を通る。 */
+[data-fx="on"] .fx-strike { position: relative; --strike: 0; }
+[data-fx="on"] .fx-strike::after {
+  content: ''; position: absolute; left: 0; top: 50%;
+  width: 100%; height: 1px; background: var(--muted);
+  transform: scaleX(var(--strike)); transform-origin: left center;
+  pointer-events: none;
+}
+/* モバイルは横幅が狭く各 li が2〜3行に折り返すため、素の記事タイポ(line-height 2 / 1.95)
+   のままだと wrapper 全体が画面より高くなり、ピン中に「やらないこと」側が
+   画面外に出たまま一度も見えない（実機スクショで検出）。
+   見せ場専用の密なタイポスケールに寄せて全体高を画面内に収める
+   （fx-chart が本文と別スケールの .84rem を持つのと同じ考え方）。 */
+@media (max-width: 640px) {
+  [data-fx="on"] .fx-contrast .art-h3 { margin: 16px 0 8px; line-height: 1.4; }
+  [data-fx="on"] .fx-contrast .art-h3:first-child { margin-top: 0; }
+  [data-fx="on"] .fx-contrast .art-ol--num,
+  [data-fx="on"] .fx-contrast .art-check { margin-bottom: 10px; gap: 6px; }
+  [data-fx="on"] .fx-contrast .art-ol--num li,
+  [data-fx="on"] .fx-contrast .art-check li { font-size: .8rem; line-height: 1.42; }
+  [data-fx="on"] .fx-contrast .art-ol--num li { padding-left: 30px; }
+  [data-fx="on"] .fx-contrast .art-ol li::before { width: 20px; height: 20px; font-size: .68rem; top: .1em; }
+  [data-fx="on"] .fx-contrast .art-check li::before { top: .55em; }
+  /* dontH3 と dontList の間に運ばれる導入文（<p>）も本文スケールのままだと折り返しが
+     多く高さを食うため、同じ密なスケールに合わせる */
+  [data-fx="on"] .fx-contrast > p { font-size: .8rem !important; line-height: 1.5 !important; margin: 0 0 12px !important; }
+}

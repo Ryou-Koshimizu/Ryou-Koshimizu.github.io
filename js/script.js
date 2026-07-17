@@ -608,7 +608,14 @@ function setupTabs() {
 function setupPageHero() {
   const ph = document.querySelector('.page-hero');
   if (!ph || isReduced) return;
-  const els = ph.querySelectorAll('.ph-label, .ph-h1, .ph-sub, .breadcrumb');
+  /* article-fx.js を読み込んでいるページでは h1 と label を1文字ずつ組み上げる
+     （.ph-label はタイプライタ演出で個別に .ch をフェードさせる）。
+     ここで丸ごとフェードすると親×子の二重掛けになるので対象から外す */
+  const hasArticleFx = !!document.querySelector('script[src*="article-fx.js"]');
+  const sel = hasArticleFx
+    ? '.ph-sub, .breadcrumb'
+    : '.ph-label, .ph-h1, .ph-sub, .breadcrumb';
+  const els = ph.querySelectorAll(sel);
   gsap.fromTo(els,
     { opacity: 0, y: 28 },
     { opacity: 1, y: 0, stagger: 0.12, duration: 0.9, ease: 'power3.out', delay: 0.1 }
