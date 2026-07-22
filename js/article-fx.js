@@ -24,6 +24,9 @@
     sceneQuote();     // is-scene を付ける。bodyReveal より先
     sceneChart();     // 同じ理由で bodyReveal より先
     sceneContrast();  // 同じ理由で bodyReveal より先
+    scenePriceTable(); // 同じ理由で bodyReveal より先
+    sceneComplaints(); // 同じ理由で bodyReveal より先
+    sceneFunnel();     // 同じ理由で bodyReveal より先
     bodyReveal();
   }
 
@@ -334,6 +337,254 @@
     tl.to(doItems, { opacity: 1, y: 0, duration: 0.6, stagger: 0.25, ease: 'power2.out' })
       .to(dontStrikes, { '--strike': 1, duration: 0.5, stagger: 0.2, ease: 'power2.inOut' }, '>0.3')
       .to(dontItems, { opacity: 0.4, duration: 0.4, stagger: 0.2 }, '<');
+  }
+
+  /* 見せ場D: 料金表「12ヶ月の総額」列のカウントアップ（insight-0yen.html 固有）。
+     insight-erabikata.html にも同じ class="art-table" の別表（不満の理由/割合）が
+     あるため、class名だけでは区別できない。この記事固有の実額
+     （357,600 / 1,077,600）が含まれるかを手がかりに対象を確定する
+     （sceneChart が26.7%を手がかりにするのと同じ考え方）。他記事・他ページでは
+     この文字列がヒットしないため wrap が見つからず、即 return して何も起きない。
+
+     本物の <strong>¥357,600</strong> 等は一切書き換えない（テキストは常に正しいまま）。
+     カウントアップ表示は別に生成した aria-hidden の装飾要素(.fx-count)を
+     絶対配置で重ねて、そちらだけを ¥0→実額へ動かす。理由:
+     ① 本物のテキストを直接書き換える設計だと、アニメーション開始前（＝ページ読込直後
+        〜スクロールでピンに入るまでの間）は "¥0" のままになる。opacity:0 で見た目は
+        隠れていても、スクリーンリーダーは opacity:0 の要素を読み上げてしまうため、
+        「総額を1円も偽らない」というこの記事の主張に反して、間違った額(¥0)を
+        読み上げる瞬間ができてしまう。装飾要素だけを動かし本物を一切書き換えなければ、
+        本物は常に正しい値のまま(不可視でも読み上げ内容は正しい)。
+     ② 本物を隠す方法を display:none にすると、セルの内容が「¥0」始まりの
+        装飾要素だけになり、カウントアップ中に文字幅が伸びて列がガタつく
+        （fx-bar の <span>display:inline 事故と同じ「タグ/表示方式のズレ」に注意）。
+        → 本物は opacity:0 のまま自然な幅で場所を確保させ、装飾を絶対配置で重ねる。
+     ③ カウントの最終表示は「装飾要素の書式」ではなく、最後に本物の<strong>へ
+        フェード戻すことで担保する。本物は生HTMLの文字列そのものなので、
+        表記と1円/1桁でもズレることが構造的に起こり得ない。 */
+  function scenePriceTable() {
+    const wrap = [...document.querySelectorAll('.art-wrap .art-table-wrap')]
+      .find(w => w.textContent.includes('357,600') && w.textContent.includes('1,077,600'));
+    if (!wrap) return;                              // この記事の表でなければ何もしない
+    const table = wrap.querySelector('table.art-table');
+    if (!table) return;
+    const rows = [...table.querySelectorAll('tbody tr')];
+    if (rows.length !== 6) return;                  // 想定と違う行数なら何もしない
+
+    // 各行の「12ヶ月の総額」セル(3列目の<strong>)から実額を読み取る。
+    // 数値をJS側にハードコードせず生HTMLから読み取ることで、表記とアニメーションの
+    // 最終値が食い違う余地を構造的に無くす。
+    const totals = rows.map(tr => {
+      const cell = tr.querySelector('td:last-child');
+      const strong = cell && cell.querySelector('strong');
+      if (!strong) return null;
+      const n = parseInt(strong.textContent.replace(/[^\d]/g, ''), 10);
+      if (!Number.isFinite(n)) return null;
+      return { cell, strong, n };
+    });
+    if (totals.some(t => !t)) return;                // 想定外の構造なら何もしない
+
+    wrap.classList.add('is-scene');
+
+    // 各行の総額セルに、装飾カウンタ(aria-hidden)を絶対配置で重ねる。
+    // 本物の<strong>はそのまま同じ場所に残し、opacityだけで隠す。
+    totals.forEach(t => {
+      const stack = document.createElement('span');
+      stack.className = 'fx-count-stack';
+      t.strong.parentNode.insertBefore(stack, t.strong);
+      stack.appendChild(t.strong);
+
+      const counter = document.createElement('span');
+      counter.className = 'fx-count';
+      counter.setAttribute('aria-hidden', 'true');   // 本物(strong)が正の読み上げ対象
+      counter.textContent = '¥0';
+      stack.appendChild(counter);
+      t.counterEl = counter;
+    });
+
+    // 隠すのは JS(gsap.set)で。GSAPが読めていなければこの関数自体呼ばれないため無事。
+    gsap.set(rows, { opacity: 0, y: 16 });
+    gsap.set(totals.map(t => t.strong), { opacity: 0 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: wrap,
+        start: 'center center',
+        end: '+=220%',
+        pin: true,
+        scrub: 0.6,
+        anticipatePin: 1,
+      }
+    });
+
+    const STEP = 0.32, DUR = 0.6;
+    totals.forEach((t, i) => {
+      const counter = { v: 0 };
+      tl.to(rows[i], { opacity: 1, y: 0, duration: DUR, ease: 'power2.out' }, i * STEP)
+        .to(counter, {
+          v: t.n, duration: DUR, ease: 'power2.out',
+          onUpdate() { t.counterEl.textContent = '¥' + Math.round(counter.v).toLocaleString('ja-JP'); }
+        }, i * STEP);
+    });
+
+    // 数え終わったら、装飾を消して本物(常に正しい値)にフェードで戻す
+    const lastEnd = (totals.length - 1) * STEP + DUR;
+    tl.to(totals.map(t => t.counterEl), { opacity: 0, duration: 0.3 }, lastEnd)
+      .to(totals.map(t => t.strong), { opacity: 1, duration: 0.3 }, lastEnd);
+  }
+
+  /* 見せ場E: 「不満の理由」ランキングの棒グラフ（insight-erabikata.html 固有）。
+     insight-0yen.html にも同じ class="art-table" の別表（12ヶ月総額）があるため、
+     class名だけでは対象を特定できない。この記事固有の実数字「46.2%」を手がかりに
+     対象の .art-table-wrap を確定する（scenePriceTable が 357,600 を手がかりにする
+     のと同じ考え方）。他記事・他ページではこの文字列がヒットしないため wrap が
+     見つからず、即 return して何も起きない。
+
+     数値はJSにハードコードせず、生HTMLの各行(td)から読み取る。表記とグラフの
+     最終値が食い違う余地を構造的に無くすため（scenePriceTable と同じ理由）。
+
+     元の <table class="art-table"> と出典 <p class="art-source"> は一切書き換えず、
+     その手前に aria-hidden のグラフを挿入するだけ（sceneChart と同じ考え方）。
+     この会社は「出典をつける」ことを売りにしているため、元の数字と出典は必ず残す。
+
+     1位「ビジネスへの理解不足」46.2%だけ .fx-cmp-top（--accent）、他3つは既定の
+     --dim のグレー（dataviz スキルの Emphasis: 1つだけ強調、他はグレー）。
+     「デザインが下手」が不満の上位に入っていない＝発注者が困っているのは
+     デザインではない、が一目で分かるようにするのが狙い。
+
+     クラスは全て自分専用の fx-cmp- 接頭辞のみを新規に定義する
+     （sceneChart 用の .fx-chart/.fx-row/.fx-name/.fx-track/.fx-bar/.fx-val とは
+     完全に別立て。既存クラス・汎用名は一切再定義しない）。
+     ただし .is-scene だけは例外＝bodyReveal がその存在を見て本文の一括reveal対象から
+     除外するための、ファイル全体で共有されたJS駆動のマーカーなので、これは
+     「再定義」ではなく既存の仕組みへの正しい参加として付与する。
+
+     隠すのは CSS ではなく JS(gsap.set)で（過去の罠: CSSで隠すとGSAP不在時に
+     内容が消える可能性があるため）。<span> は display:inline なので
+     width/transform:scaleX() が無視される→ 棒要素は必ず display:block にする
+     （fx-bar で踏んだ罠と同じ）。 */
+  function sceneComplaints() {
+    // 46.2% を含む art-table-wrap を探す（この記事固有）
+    const wrap = [...document.querySelectorAll('.art-wrap .art-table-wrap')]
+      .find(w => w.textContent.includes('46.2%'));
+    if (!wrap) return;                               // この記事の表でなければ何もしない
+    const table = wrap.querySelector('table.art-table');
+    if (!table) return;
+    const rows = [...table.querySelectorAll('tbody tr')];
+    if (rows.length !== 4) return;                    // 想定と違う行数なら何もしない
+
+    // 各行の「不満の理由」「割合」をtdから読み取る(ハードコードしない)
+    const DATA = rows.map(tr => {
+      const tds = tr.querySelectorAll('td');
+      if (tds.length !== 2) return null;
+      const name = tds[0].textContent.trim();
+      const val = parseFloat(tds[1].textContent.replace(/[^\d.]/g, ''));
+      if (!name || !Number.isFinite(val)) return null;
+      return { name, val };
+    });
+    if (DATA.some(d => !d)) return;                    // 想定外の構造なら何もしない
+
+    const MAX = 100;                                   // 割合(%)そのものを0-100スケールで見せる
+
+    const chart = document.createElement('div');
+    chart.className = 'fx-cmp-chart';
+    chart.setAttribute('aria-hidden', 'true');          // 数字・出典は元の表が持つので読み上げ不要
+    chart.innerHTML = DATA.map((d, i) => `
+      <div class="fx-cmp-row">
+        <span class="fx-cmp-name">${d.name}</span>
+        <span class="fx-cmp-track"><span class="fx-cmp-bar${i === 0 ? ' fx-cmp-top' : ''}" style="width:${(d.val / MAX * 100).toFixed(1)}%"></span></span>
+        <span class="fx-cmp-val">0%</span>
+      </div>`).join('');
+    wrap.parentNode.insertBefore(chart, wrap);           // 元の表(wrap)は動かさず、その手前に挿す
+    chart.classList.add('is-scene');
+
+    const bars = chart.querySelectorAll('.fx-cmp-bar');
+    const vals = chart.querySelectorAll('.fx-cmp-val');
+
+    // 隠すのはJS(gsap.set)で。GSAP不在ならこの関数自体呼ばれないため無事だが、
+    // bodyReveal / scenePriceTable と同じ流儀に揃える。
+    gsap.set(bars, { scaleX: 0, transformOrigin: 'left center' });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: chart, start: 'center center', end: '+=180%',
+        pin: true, scrub: 0.6, anticipatePin: 1,
+      }
+    });
+    DATA.forEach((d, i) => {
+      const counter = { v: 0 };
+      tl.to(bars[i], { scaleX: 1, duration: 0.8, ease: 'power2.out' }, i * 0.35)
+        .to(counter, {
+          v: d.val, duration: 0.8, ease: 'power2.out',
+          onUpdate() { vals[i].textContent = counter.v.toFixed(1) + '%'; }
+        }, i * 0.35);
+    });
+  }
+
+  /* 見せ場F: 検索10件 → AIが選ぶのは1〜3件（insight-ai-search.html 固有）。
+     本文の核心段落「AIが答えを返すとき、選ばれるのは1〜3件だけ」＋「存在しないのと
+     同じ」を両方含む<p>を手がかりに対象記事を確定する（scenePriceTable が357,600を、
+     sceneComplaints が46.2%を手がかりにするのと同じ考え方）。この2文字列を両方含む
+     <p>は .art-wrap 内でこの記事にしか存在しないため、他記事・他ページでは wrap が
+     見つからず即 return して何も起きない。
+
+     これは抽象図（実在の検索結果ではない）。数字「10」「1〜3」は本文に根拠があるが、
+     バーには店名・順位・数値を一切書かない。aria-hidden="true" を付け、本文の記述が
+     正典であることを保つ。生HTMLは変更せず、この段落の直後に実行時生成した図を
+     挿すだけ（sceneChart/sceneComplaints と同じ「元本文はそのまま、手前/直後に
+     aria-hiddenの図を足す」流儀）。
+
+     クラスは全て専用の fx-fn- 接頭辞のみを新規に定義する（既存の
+     fx-chart/fx-row/fx-bar や fx-cmp-* とは完全に別立て。既存クラスは一切再定義しない）。
+
+     .fx-fn-bar は <span>（既定 display:inline）なので、明示的に display:block を
+     与えないと height/transform:scaleY() が丸ごと無視され、棒が高さ0で消える
+     （fx-bar / fx-cmp-bar で踏んだ罠と同じ）。初期の非表示状態(scaleY(0))はCSSに
+     書かず、JS側でgsap.setにより設定する（CSSで隠すとGSAP不在時に内容が消える
+     経路を作ってしまうため。GSAP不在ならこの関数自体呼ばれないが、他sceneと
+     流儀を揃える）。
+
+     残す3本の発色は、sceneQuote() の `color: 'var(--accent)'` と同じ書き方
+     （backgroundColor を CSS変数の文字列へ直接 to する）に倣う。新しい hex は
+     JSにもCSSにも書かない。 */
+  function sceneFunnel() {
+    const wrap = document.querySelector('.art-wrap');
+    if (!wrap) return;
+    const target = [...wrap.querySelectorAll('p')].find(p =>
+      p.textContent.includes('選ばれるのは1〜3件') && p.textContent.includes('存在しないのと同じ')
+    );
+    if (!target) return;                              // この記事の段落でなければ何もしない
+
+    const scene = document.createElement('div');
+    scene.className = 'fx-fn-wrap is-scene';
+    scene.setAttribute('aria-hidden', 'true');         // 抽象図。本文の記述が正典
+    scene.innerHTML =
+      '<p class="fx-fn-label fx-fn-label--before">検索結果：10件、全部見てもらえた</p>' +
+      '<div class="fx-fn-bars">' + '<span class="fx-fn-bar"></span>'.repeat(10) + '</div>' +
+      '<p class="fx-fn-label fx-fn-label--after">AIが選ぶのは、1〜3件だけ</p>';
+    target.parentNode.insertBefore(scene, target.nextSibling);
+
+    const bars   = [...scene.querySelectorAll('.fx-fn-bar')];
+    const before = scene.querySelector('.fx-fn-label--before');
+    const after  = scene.querySelector('.fx-fn-label--after');
+    const kept   = bars.slice(0, 3);                   // 残る3本（AIが選ぶ側）
+    const faded  = bars.slice(3);                       // 消える7本
+
+    gsap.set(bars,  { scaleY: 0, transformOrigin: 'bottom center' });
+    gsap.set(after, { opacity: 0 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: scene, start: 'center center', end: '+=200%',
+        pin: true, scrub: 0.6, anticipatePin: 1,
+      }
+    });
+    tl.to(bars, { scaleY: 1, duration: 0.8, ease: 'power2.out', stagger: 0.05 })
+      .to({}, { duration: 0.4 })                        // 一拍。10本ぜんぶ見える状態を見せる
+      .to(faded, { opacity: 0, duration: 0.7, ease: 'power2.inOut', stagger: 0.04 })
+      .to(kept,  { backgroundColor: 'var(--accent)', duration: 0.5, ease: 'power2.out' }, '<')
+      .to(before, { opacity: 0, duration: 0.4 }, '<')
+      .to(after,  { opacity: 1, duration: 0.5 }, '<0.1');
   }
 
   if (document.readyState === 'loading') {

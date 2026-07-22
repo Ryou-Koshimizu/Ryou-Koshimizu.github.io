@@ -2203,9 +2203,7 @@ a.work-card { text-decoration: none; color: inherit; display: block; }
 .maker-grid {
   display: grid; grid-template-columns: 1fr 1.15fr;
   gap: clamp(32px, 5vw, 72px);
-  /* 代表者カード未掲載の間は左カラムが短くなる。start だと下に大穴が空くため中央寄せ。
-     実名・顔写真を入れて .maker-person を有効化したら start に戻してよい */
-  align-items: center;
+  align-items: center;   /* 下部の @media 外で start に上書きしている */
 }
 .maker-lead h3 {
   font-size: clamp(1.5rem, 3.4vw, 2.2rem); line-height: 1.5;
@@ -2214,19 +2212,34 @@ a.work-card { text-decoration: none; color: inherit; display: block; }
 .maker-lead h3 em { color: var(--accent); }
 .maker-lead p { font-size: .95rem; line-height: 2; color: var(--muted); margin: 0 0 16px; }
 
-/* 代表者カード（実名・顔写真が入るまでは非表示。下のHTMLコメント参照） */
-.maker-person {
-  display: flex; gap: 18px; align-items: center;
-  margin-top: 28px; padding: 20px;
+/* 運営者カード。顔写真は掲載しない方針のため、アバター枠は持たせず
+   「名前そのもの」をタイポグラフィで見せる（空の丸枠は不在を強調してしまう） */
+.maker-people {
+  margin-top: 28px; padding: 22px 24px;
   background: var(--bg2); border: 1px solid var(--border); border-radius: 14px;
 }
-.maker-person img {
-  width: 84px; height: 84px; border-radius: 50%;
-  object-fit: cover; flex-shrink: 0; background: var(--bg);
+.maker-people-label {
+  margin: 0 0 14px;
+  font-size: .72rem; font-weight: 600; letter-spacing: .1em;
+  color: var(--dim);
 }
-.maker-person-body strong { display: block; font-size: 1.05rem; color: var(--ink); margin-bottom: 4px; }
-.maker-person-body span { display: block; font-size: .8rem; color: var(--dim); margin-bottom: 8px; }
-.maker-person-body p { font-size: .85rem; line-height: 1.8; color: var(--muted); margin: 0; }
+.maker-people-list {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-wrap: wrap; gap: 10px 30px;
+}
+.maker-people-list li {
+  position: relative; padding-left: 13px;
+  font-size: 1.05rem; font-weight: 700; color: var(--ink); letter-spacing: .02em;
+}
+.maker-people-list li::before {
+  content: ""; position: absolute; left: 0; top: .38em;
+  width: 3px; height: 1em; border-radius: 2px; background: var(--accent);
+}
+.maker-people-note {
+  margin: 16px 0 0; padding-top: 14px; border-top: 1px solid var(--border);
+  font-size: .82rem; line-height: 1.9; color: var(--muted);
+}
+.maker-people-note a { color: var(--accent); text-decoration: underline; text-underline-offset: 2px; }
 
 /* 「その代わり、お見せできる2つ」 */
 .maker-offer { display: grid; gap: 18px; }
@@ -2352,8 +2365,8 @@ a.work-card { text-decoration: none; color: inherit; display: block; }
 .mq.is-paused .mq-track { animation-play-state: paused; }
 @media (max-width: 640px) { .mq-toggle { top: -42px; right: 16px; } }
 
-/* #maker：代表者カードが入るまで左カラムが短く、中央寄せだと見出しの上に空洞が出る。
-   sticky にして視線に追従させる（実名・顔写真を入れたら align-items:start のままでよい） */
+/* #maker：左カラム（見出し＋運営者カード）は右のオファー2枚より短いため、
+   start 揃え＋sticky で視線に追従させる */
 .maker-grid { align-items: start; }
 @media (min-width: 861px) {
   .maker-lead { position: sticky; top: 104px; }
@@ -2710,3 +2723,87 @@ a.work-card { text-decoration: none; color: inherit; display: block; }
      多く高さを食うため、同じ密なスケールに合わせる */
   [data-fx="on"] .fx-contrast > p { font-size: .8rem !important; line-height: 1.5 !important; margin: 0 0 12px !important; }
 }
+
+/* 見せ場D: 料金表「12ヶ月の総額」カウントアップ（js/article-fx.js の scenePriceTable()、
+   insight-0yen.html 固有）。.fx-count-stack は実行時に生成する小さな重ね箱で、
+   中に本物の<strong>（常に正しい額。opacityで隠すだけ）と装飾カウンタ.fx-count
+   （aria-hidden、絶対配置）を重ねる。stack のサイズは中に残った本物の<strong>の
+   自然な文字幅がそのまま決めるため、カウントアップ中に数字の桁が増えても
+   セル幅がガタつかない（fx-bar の <span>display:inline 事故と同じ「表示方式のズレ」
+   に注意し、ここでは絶対配置の基準となる箱を明示的に inline-block にしている）。 */
+[data-fx="on"] .fx-count-stack { position: relative; display: inline-block; }
+[data-fx="on"] .fx-count { position: absolute; inset: 0; color: var(--accent); font-weight: 700; }
+
+/* 見せ場E: 「不満の理由」ランキングの棒グラフ
+   （js/article-fx.js の sceneComplaints()、insight-erabikata.html 固有）。
+   sceneChart() 用の .fx-chart/.fx-row/.fx-name/.fx-track/.fx-bar/.fx-val とは
+   完全に別立てにするため、クラスは全て専用の fx-cmp- 接頭辞のみを使う。
+   1位(1番目の行)だけ .fx-cmp-top で --accent、他3つは既定の --dim のまま
+   （dataviz スキルの Emphasis: 1つだけ強調、他はグレー）。
+   .fx-cmp-bar は <span>（既定 display:inline）なので、明示的に display:block を
+   与えないと width/transform:scaleX() が丸ごと無視され棒が幅0で消える
+   （sceneChart の .fx-bar で踏んだ罠と同じ。ここでも同様に明示が必須）。
+   初期の非表示状態(scaleX(0))はCSSに書かず、JS側でgsap.setにより設定する
+   （CSSで隠すとGSAP不在時に内容が消える経路を作ってしまうため）。 */
+[data-fx="on"] .fx-cmp-chart { margin: 0 0 26px; display: grid; gap: 14px; }
+[data-fx="on"] .fx-cmp-row {
+  display: grid; grid-template-columns: 11.5em 1fr 4.5em; grid-template-areas: "name track val";
+  gap: 12px; align-items: center;
+}
+/* 名前列は11.5em: 最長の項目名「プロジェクト管理の不備」(11文字)が実測147pxで、
+   9emだと数px足りず1文字だけ折り返して行内で浮く不具合を実機計測で検出したため、
+   1文字も折り返さない幅まで広げてある（white-space指定はせず、幅で解決） */
+[data-fx="on"] .fx-cmp-name { grid-area: name; font-size: .84rem; color: var(--muted); }
+[data-fx="on"] .fx-cmp-track {
+  grid-area: track; display: block; height: 10px; background: var(--bg2);
+  border: 1px solid var(--border); border-radius: 6px; overflow: hidden;
+}
+[data-fx="on"] .fx-cmp-bar {
+  display: block; height: 100%; border-radius: 0 6px 6px 0; transform-origin: left center;
+  background: var(--dim);
+}
+[data-fx="on"] .fx-cmp-bar.fx-cmp-top { background: var(--accent); }
+[data-fx="on"] .fx-cmp-val {
+  grid-area: val; font-size: .84rem; font-weight: 700; color: var(--ink);
+  text-align: right; font-variant-numeric: tabular-nums;
+}
+@media (max-width: 640px) {
+  /* 名前(8〜11文字の日本語)がsceneChartの国名より長く、3列横並びのままだと
+     320px幅で詰まって折り返す恐れがあるため、名前を単独の行に上げて
+     track+valを次の行にする2段構成にする */
+  [data-fx="on"] .fx-cmp-row {
+    grid-template-columns: 1fr auto; grid-template-areas: "name name" "track val";
+    row-gap: 6px; column-gap: 10px;
+  }
+  [data-fx="on"] .fx-cmp-name { font-size: .78rem; }
+  [data-fx="on"] .fx-cmp-val { font-size: .78rem; }
+}
+
+/* 見せ場F: 検索10件 → AIが選ぶのは1〜3件
+   （js/article-fx.js の sceneFunnel()、insight-ai-search.html 固有・実行時生成・aria-hidden）。
+   これは抽象図。バーは検索順位の実データではなく、本文「選ばれるのは1〜3件だけ」
+   「存在しないのと同じ」の主張を絵にしたもの。クラスは全て専用の fx-fn- 接頭辞のみ
+   新規定義（既存の fx-chart/fx-row/fx-bar や fx-cmp-* とは完全に別立て。既存クラスは
+   再定義しない）。
+   .fx-fn-bar は <span>（既定 display:inline）なので、明示的に display:block を
+   与えないと height/transform:scaleY() が丸ごと無視され棒が高さ0で消える
+   （fx-bar / fx-cmp-bar で踏んだ罠と同じ）。初期の非表示状態(scaleY(0))はCSSに
+   書かず、JS側でgsap.setにより設定する（CSSで隠すとGSAP不在時に内容が消えるため）。 */
+[data-fx="on"] .fx-fn-wrap {
+  margin: 0 0 26px; min-height: 40vh; padding: 8px 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+}
+[data-fx="on"] .fx-fn-label {
+  margin: 0; font-size: .95rem; font-weight: 700; color: var(--ink); text-align: center;
+}
+[data-fx="on"] .fx-fn-bars { display: flex; align-items: flex-end; justify-content: center; gap: 10px; height: 140px; }
+[data-fx="on"] .fx-fn-bar {
+  display: block; width: 30px; height: 100%; border-radius: 6px 6px 0 0;
+  background: var(--dim); transform-origin: bottom center;
+}
+@media (max-width: 640px) {
+  [data-fx="on"] .fx-fn-bars { gap: 6px; height: 108px; }
+  [data-fx="on"] .fx-fn-bar { width: 20px; border-radius: 4px 4px 0 0; }
+  [data-fx="on"] .fx-fn-label { font-size: .84rem; }
+}
+
