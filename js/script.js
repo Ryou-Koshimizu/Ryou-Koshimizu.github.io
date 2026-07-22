@@ -387,7 +387,7 @@ function setupServices() {
 
       setX(-p * dist);
       if (fill)   fill.style.transform = 'scaleX(' + p + ')';
-      if (currEl) currEl.textContent = String(Math.min(Math.ceil(p * 8), 8) || 1).padStart(2, '0');
+      if (currEl) currEl.textContent = String(Math.min(Math.ceil(p * 7), 7) || 1).padStart(2, '0');
     },
   });
 

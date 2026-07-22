@@ -342,11 +342,11 @@
   /* 見せ場D: 料金表「12ヶ月の総額」列のカウントアップ（insight-0yen.html 固有）。
      insight-erabikata.html にも同じ class="art-table" の別表（不満の理由/割合）が
      あるため、class名だけでは区別できない。この記事固有の実額
-     （357,600 / 1,077,600）が含まれるかを手がかりに対象を確定する
+     （240,000 / 480,000）が含まれるかを手がかりに対象を確定する
      （sceneChart が26.7%を手がかりにするのと同じ考え方）。他記事・他ページでは
      この文字列がヒットしないため wrap が見つからず、即 return して何も起きない。
 
-     本物の <strong>¥357,600</strong> 等は一切書き換えない（テキストは常に正しいまま）。
+     本物の <strong>¥240,000</strong> 等は一切書き換えない（テキストは常に正しいまま）。
      カウントアップ表示は別に生成した aria-hidden の装飾要素(.fx-count)を
      絶対配置で重ねて、そちらだけを ¥0→実額へ動かす。理由:
      ① 本物のテキストを直接書き換える設計だと、アニメーション開始前（＝ページ読込直後
@@ -364,12 +364,12 @@
         表記と1円/1桁でもズレることが構造的に起こり得ない。 */
   function scenePriceTable() {
     const wrap = [...document.querySelectorAll('.art-wrap .art-table-wrap')]
-      .find(w => w.textContent.includes('357,600') && w.textContent.includes('1,077,600'));
+      .find(w => w.textContent.includes('240,000') && w.textContent.includes('480,000'));
     if (!wrap) return;                              // この記事の表でなければ何もしない
     const table = wrap.querySelector('table.art-table');
     if (!table) return;
     const rows = [...table.querySelectorAll('tbody tr')];
-    if (rows.length !== 6) return;                  // 想定と違う行数なら何もしない
+    if (rows.length !== 3) return;                  // 想定と違う行数なら何もしない
 
     // 各行の「12ヶ月の総額」セル(3列目の<strong>)から実額を読み取る。
     // 数値をJS側にハードコードせず生HTMLから読み取ることで、表記とアニメーションの
@@ -436,7 +436,7 @@
   /* 見せ場E: 「不満の理由」ランキングの棒グラフ（insight-erabikata.html 固有）。
      insight-0yen.html にも同じ class="art-table" の別表（12ヶ月総額）があるため、
      class名だけでは対象を特定できない。この記事固有の実数字「46.2%」を手がかりに
-     対象の .art-table-wrap を確定する（scenePriceTable が 357,600 を手がかりにする
+     対象の .art-table-wrap を確定する（scenePriceTable が 240,000 を手がかりにする
      のと同じ考え方）。他記事・他ページではこの文字列がヒットしないため wrap が
      見つからず、即 return して何も起きない。
 
@@ -523,7 +523,7 @@
 
   /* 見せ場F: 検索10件 → AIが選ぶのは1〜3件（insight-ai-search.html 固有）。
      本文の核心段落「AIが答えを返すとき、選ばれるのは1〜3件だけ」＋「存在しないのと
-     同じ」を両方含む<p>を手がかりに対象記事を確定する（scenePriceTable が357,600を、
+     同じ」を両方含む<p>を手がかりに対象記事を確定する（scenePriceTable が240,000を、
      sceneComplaints が46.2%を手がかりにするのと同じ考え方）。この2文字列を両方含む
      <p>は .art-wrap 内でこの記事にしか存在しないため、他記事・他ページでは wrap が
      見つからず即 return して何も起きない。

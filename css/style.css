@@ -2454,7 +2454,7 @@ a.work-card { text-decoration: none; color: inherit; display: block; }
 @media (max-width: 640px) { .diag-box { padding: 20px 18px; } }
 
 /* ============================================================
-   MONITOR — 最初の3社へのモニター特約（実績ゼロを武器に変える）
+   REFERRAL — ご紹介プログラム（紹介1件につき月額25%OFF・最大2件で50%OFF）
    配置は #maker（実績ゼロの告白）の直後。告白の論理的な結論として置く。
 ============================================================ */
 .mon-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(32px,5vw,68px); align-items: start; }
@@ -2503,7 +2503,7 @@ a.work-card { text-decoration: none; color: inherit; display: block; }
   .mon-grid { grid-template-columns: 1fr; gap: 30px; }
   .mon-offer { padding: 24px 20px; }
 }
-/* pricing：モニター特約バナー */
+/* pricing：ご紹介プログラムのバナー */
 .mon-banner {
   display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center;
   padding: 28px 32px; border-radius: 16px;
